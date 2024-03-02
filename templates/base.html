@@ -1,5 +1,5 @@
-{% load static %}
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -86,153 +86,104 @@ cursor: pointer;
 }
   </style>
   <body>
+<style>
+    a{
+        text-decoration: none;
+    }
+    .main_navbar{
+        display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 21px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    }
+    .main_left_nav{
+        display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    }
+    .main_navigations{    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
 
-<a href="/">Home</a>
-    {% if user.is_authenticated %}
- 
-    <div class="main_notifications_users_dropdown"  >
-    
-      <div class="dropdown mobile_menu_bar d-md-block ">
-        <i class='bx bx-menu text-dark'  style="font-weight: 500; cursor:pointer;    padding: 25px 0;
-        font-size: 25px;" data-bs-toggle="offcanvas" data-bs-target="#Algo_trade_mobile_nav" role="button" aria-controls="Algo_trade_mobile_nav" ></i>
-      </div>
-      <div class="dropdown d-md-none">
-        <i type="button" class="bx bx-bell position-relative text-dark" id="notification_bell" data-bs-toggle="dropdown" aria-expanded="false"
-          style="font-weight: 500; cursor:pointer;font-size: 22px;     padding: 25px 0;">
-    
-          <span
-            class="position-absolute top-0 start-100 translate-middle  bg-danger border border-light rounded-circle" style="    width: 7px;
-            height: 7px;">
-            <span class="visually-hidden"></span>
-          </span>
-        </i>
-    
-    
-        <ul class="dropdown-menu user-mega-menu mt-1 notification-icon overflow-auto" id="notification_dropdown" aria-labelledby="navbarDropdown"
-        style="max-height: 473px;">
-      <!-- Result data will be dynamically added here -->
-    </ul>
-    
-    <script>
-      $(document).ready(function() {
-        // Flag to track if the AJAX request has been made
-        var ajaxRequested = false;
-      
-        // Hover event using one() to ensure it triggers only once
-        $('#notification_bell').one('mouseenter', function() {
-          if (!ajaxRequested) {
-            // Make AJAX request to get user_results data
-            $.ajax({
-              url: '/get_user_strategy_results',  // Replace with your actual API endpoint
-              method: 'GET',
-              dataType: 'json',
-              success: function(response) {
-                // Iterate through user_results and display each result_data.message
-                var resultsContainer = $('#notification_dropdown');
-                $.each(response.user_results, function(index, result) {
-                  $.each(result.result_data, function(_, message) {
-                    // Remove content after [Read more.](...) including the link
-                    var cleanedMessage = JSON.parse(message).message.replace(/\[Read more\..*?\]\([^)]+\)/g, '');
-      
-                    // Create and append HTML for each result_data.message
-                    var listItem = $('<li>').addClass('dropdown-item py-2 cursor-pointer');
-                    listItem.append('<div class="d-flex justify-content-between"><span class="pe-5 label-color-4 fw-600" style="font-size: 16px; font-weight: 600;">' +
-                      result.strategy_name + '</span><span class="ps-3 label-color-5" style="font-size: 15px;">' +
-                      result.scheduled_time + '</span></div><span class="label-color-4 text-wrap" style="font-size: 14px;">' +
-                      cleanedMessage.trim() + '</span>');
-                    resultsContainer.append(listItem);
-                  });
-                });
-              },
-              error: function(error) {
-                console.error('Error fetching data:', error);
-              },
-              complete: function() {
-                // Set the flag to true after the AJAX request is complete
-                ajaxRequested = true;
-              }
-            });
-          }
-        });
-      });
-      </script>
-      </div>
-      <div class="dropdown">
-        <a class="btn-secondary-user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-          id="dashboard_nav_dropdown_user" style="display: flex; gap: 0.5rem; align-items: center; padding: 17px 0;">
-          <h5>
-            {% if user.full_name %}
-       
-              {{ user.full_name }}
-              {% elif user.username %}
-            {{ user.username }}
-          {% else %}
-            ADMIN
-          {% endif %}
-          
-          
-            
-          </h5>
-          <!-- <div class="text-black">{{user.full_name}}</div> -->
-        </a>
-    <style>
-      #user_dropdown li:focus{
-        all: unset !important;
-      }
-      .dropdown-item.active, .dropdown-item:active{
-        background-color:transparent !important;
-        color: black !important;
-      }
-    
-      #user_dropdown li a:hover {
-        transition: 0.2s;
-        background: rgb(237 163 157 / 10%) !important;
-    
-    }
-      #user_dropdown li a {
-        transition: 0.2s;
-        color: rgb(88, 88, 88);
-    
-    }
-    .modal_close_btn{
-      transition: .3s;
-    }
-    .modal_close_btn:hover{
-    /* background-color: #f2f2f2 !important; */
-    background-color: #f1eded !important;
-    }
-    </style>
-        <ul class="dropdown-menu" id="user_dropdown">
+h5,p{
+    margin-bottom: 0;
+}
+</style>
+    <nav>
+        <div class="main_navbar">
 
-    
-            <li><a class="dropdown-item" href="{% url 'broker_details' %}">Broker Details </a></li>
-    
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" href="{% url 'logout_user' %}">Logout </a></li>
-    
-        </ul>
-      </div>
-    </div>
-        
-          {% else %}
-          <div class="main_not_authenticated_items d-flex gap-3 align-items-center">
-        
-            <div class="dropdown mobile_menu_bar d-md-block ">
-              <i class='bx bx-menu text-dark'  style="font-weight: 500; cursor:pointer;    padding: 14px 0;
-              font-size: 31px" data-bs-toggle="offcanvas" data-bs-target="#Algo_trade_mobile_nav" role="button" aria-controls="Algo_trade_mobile_nav" ></i>
+            <div class="logo_header">
+               <a href="/"> <img src="https://optionperks.com/static/img/OptionPerksLogo-2-14-24.png" alt="OptionPerks Logo" width="180px"></a>
             </div>
-            <a href="{% url 'signup_page' %}">
-              Sign Up</a>
-            <a href="{% url 'login_page' %}" > Sign In</a>
-          </div>
-          {% endif %}
-          <!-- <div class="menu_mobile" style="display: none; color: black !important; font-size: 31px;" type="button"
-            data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <i class="bi bi-list"></i>
-          </div> -->
+
+            <div class="main_left_nav">
+                <div class="main_navigations">
+
+                    <div class="main_home"><a href="/">Home</a></div>
+                    <div class="main_home"><a href="/">Home</a></div>
+                    <div class="main_home"><a href="/">Home</a></div>
+                    <div class="main_home"><a href="/">Home</a></div>
+
+                </div>
+
+                <div class="user_login-signup">
+                    {% if user.is_authenticated %}
+ 
+
+                      <div class="dropdown">
+                        <a class="btn-secondary-user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                          id="dashboard_nav_dropdown_user" style="display: flex; gap: 0.5rem; align-items: center;">
+                          <h5>
+                            {% if user.full_name %}
+                       
+                              {{ user.full_name }}
+                              {% elif user.username %}
+                            {{ user.username }}
+                          {% else %}
+                            ADMIN
+                          {% endif %}
+                          
+                          
+                            
+                          </h5>
+                          <!-- <div class="text-black">{{user.full_name}}</div> -->
+                        </a>
+                
+                        <ul class="dropdown-menu" id="user_dropdown">
+                
+                    
+                            <li><a class="dropdown-item" href="{% url 'broker_details' %}">Broker Details </a></li>
+                    
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item" href="{% url 'logout_user' %}">Logout </a></li>
+                    
+                        </ul>
+                      </div>
+                    </div>
+                        
+                          {% else %}
+                          <div class="main_not_authenticated_items d-flex gap-3 align-items-center">
+                        
+                
+                            <a href="{% url 'signup_page' %}">
+                              Sign Up</a>
+                            <a href="{% url 'login_page' %}" > Sign In</a>
+                          </div>
+                          {% endif %}
+                
+                        </div>
+                
+                </div>
+            </div>
+
         </div>
+    </nav>
+
+
 
 
 
