@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+{% load static %}
+{% block dashboard_body %}
+
+
+<style>
+
+    #api_config_table thead tr{
+        padding: 12px 15px !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    background: #4399eb !important;
+    color: #fff !important;
+    }
+    #dataTables_length,#api_config_table_filter{
+        margin-bottom: 1rem;
+    }
+    #api_config_table tbody tr:nth-child(odd) {
+        background-color: #FFF;
+    }
+
+    #api_config_table tbody tr:nth-child(even) {
+        background-color: #f0f7fd !important;
+    }
+
+    tbody tr:hover td:first-child {
+  color: #4399eb;
+}
+.btn_edit_broker{
+
+font-size: 23px;
+    color: gray;
+    font-weight: 500 !important;
+}
+    .btn_edit_broker:hover{
+        color: green;
+    }
+    .btn_delete_boker{
+        font-size: 22px;
+        color: gray;
+    }
+    .btn_delete_boker:hover{
+        color: rgb(207 0 0)
+    }
+    .broker_name{
+        padding: 2px 11px;color: white;border-radius: 5px;
+    }
+    .parent_div {
+        border-radius: 10px;
+        overflow: hidden; /* Ensures the border-radius is applied properly */
+    }
+    #api_config_table_wrapper{
+        display: flex;
+    flex-direction: column;
+    }
+
+
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        color: white !important;
+        border: 1px solid #59aaf9 !important;
+        background-color: rgba(230, 230, 230, 0.1);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+        background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -moz-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -ms-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -o-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        /* background: linear-gradient(to bottom, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%); */
+        background: #59aaf9;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 7px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: inherit !important;
+        border: 1px solid transparent;
+        border-radius: 7px;
+        background: transparent;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+        outline: none;
+        background-color: #2b2b2b;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b), color-stop(100%, #0c0c0c));
+        background: -webkit-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);
+        background: -moz-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);
+        background: -ms-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);
+        background: -o-linear-gradient(top, #2b2b2b 0%, #0c0c0c 100%);
+        background: #59aaf9 !important;
+        box-shadow: inset 0 0 3px #111;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        color: white !important;
+        border: 1px solid #59aaf9 !important;
+        background-color: #585858;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));
+        background: -webkit-linear-gradient(top, #585858 0%, #111 100%);
+        background: -moz-linear-gradient(top, #585858 0%, #111 100%);
+        background: -ms-linear-gradient(top, #585858 0%, #111 100%);
+        background: -o-linear-gradient(top, #585858 0%, #111 100%);
+        background: linear-gradient(to bottom, #585858 0%, #111 100%);
+        background: #59aaf9 !important;
+    }
+    .paginate_button.previous::before {
+        content: "<"; /* Unicode left arrow character */
+        font-size: 16px !important;
+      }
+    
+      /* Next page button icon */
+      .paginate_button.next::before {
+        content: ">"; /* Unicode right arrow character */
+        font-size: 16px !important;
+      }
+    
+      /* Hide text for Previous and Next buttons */
+      #api_config_table_previous{
+        font-size: 0 !important;
+        background-color: white; /* Button background color */
+        color: black; /* Button text color */
+         /* Button border */
+        padding: 7px 18px; /* Button padding */
+        border-radius: 4px; /* Button border-radius */
+        cursor: pointer; /* Add pointer cursor on hover */
+        transition: background-color 0.3s ease; 
+        box-shadow: 0 3px 16px 0 rgba(35,47,62,.15)!important;
+      }
+      #api_config_table_previous {
+        font-size: 0 !important;
+        background-color: white; /* Button background color */
+        color: black; /* Button text color */
+         /* Button border */
+        padding: 7px 18px; /* Button padding */
+        border-radius: 4px; /* Button border-radius */
+        cursor: pointer; /* Add pointer cursor on hover */
+        transition: background-color 0.3s ease; 
+        box-shadow: 0 3px 16px 0 rgba(35,47,62,.15)!important;
+      }
+      #api_config_table_previous:hover {
+        color: white !important;
+        
+      }
+      #api_config_table_next {
+        font-size: 0 !important;
+        background-color: white; /* Button background color */
+        color: black; /* Button text color */
+         /* Button border */
+        padding: 7px 18px; /* Button padding */
+        border-radius: 4px; /* Button border-radius */
+        cursor: pointer; /* Add pointer cursor on hover */
+        transition: background-color 0.3s ease; 
+        box-shadow: 0 3px 16px 0 rgba(35,47,62,.15)!important;
+      }
+
+      #api_config_table_next:hover{
+        color: white !important;
+      }
+    
+      .paginate_button {
+        box-shadow: 0 3px 16px 0 rgba(35,47,62,.15)!important; /* Adjust the values as needed */
+      }
+    
+    
+      .dataTables_length select{
+        border: 1px solid #aaa;
+          
+          background-color: transparent;
+          
+          margin: 0 5px !important;
+          font-weight: 500 !important;
+      }
+    
+      .dataTables_length label {
+        text-transform: capitalize !important;
+    }
+    
+    .parent_table {
+        border-radius: 10px 10px 0 0 !important;
+        overflow: auto !important;
+    }
+    
+    .dataTables_info{
+      margin-top: 5px !important;
+    }
+    #api_config_table_wrapper{
+     padding: 10px !important;
+    }
+    #api_config_table thead tr th{
+        padding: 20px !important;
+    }
+    #totp_key div{
+     width: 280px !important;
+     justify-content: center !important;
+    }
+</style>
+<div class="main_broker_title mt-2">
+    <h5>   Broker Details</h5>
+</div>
+<div class="main_all_broker_table table-responsive mt-3">
+
+
+    <table id="api_config_table" class="display table  table-bordered" style="width: -webkit-fill-available;">
+        <thead style="white-space: nowrap;">
+            <tr>
+                <th>Broker</th>
+                <th>App Name</th>
+                <th>Phone number</th>
+                <th>login id</th>
+                <th>password</th>
+                <th>API Key</th>
+                <th>Secret Key</th>
+                <th class="text-center">TOTP Key</th>
+                <th>Active status</th>
+                <th>Adv. Security status</th>
+                <th>API Added At</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function() {
+
+        function fetchDataAndAppendToTable() {
+            $.ajax({
+                url: 'get_api_config_data', // Replace with your backend endpoint URL
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Clear existing table rows
+                    var broker_detail = data.brokers
+                    console.log(data.brokers)
+                    $('#api_config_table tbody').empty();
+                    // Append new rows with fetched data
+                    data.brokers.forEach(function(broker) {
+                        var addedAt = new Date(broker.added_at); // Parse the timestamp
+                var dateString = addedAt.toLocaleDateString(); // Get the date portion
+                var timeString = addedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Get the time portion without seconds
+                var dateTimeString = dateString +' '+ timeString; // Combine date and time
+                        var status = broker.active_api ? 'Active' : 'Inactive';
+                        var statusColor = broker.active_api ? 'text-success' : 'text-danger';
+                        var adv_totp = broker.advance_totp_security ? "Active" : "Inactive"
+                        var adv_totp_color = broker.advance_totp_security ? 'text-success' : 'text-danger';
+
+                        function handleEmptyValue(value) {
+                            if (!value) return '-'; // Return placeholder if value is empty or null
+                        
+                            // Capitalize the first letter of the value
+                            value = value.charAt(0).toUpperCase() + value.slice(1);
+                        
+                            // Handle specific cases like "upstocks" to "upstox"
+                            if (value.toLowerCase() === 'upstocks') {
+                                value = 'Upstox';
+                            }
+                            else if (value.toLowerCase() === 'angelone') {
+                                value = 'Angel One';
+                            } else if (value.toLowerCase() === 'zerodha') {
+                                value = 'Zerodha';
+                            }
+                        
+                            return value;
+                        }
+
+                        function generateCellContent(value) {
+                            if (value && value !== '-') {
+                                return `<div class="d-flex align-items-center"> <span class="sensitive-data" style="font-size: 12px;" data-original-value="${value}">************</span><i class="bi bi-eye-slash ms-2 show-data-icon"></i></div>`;
+                            } else {
+                                return '-';
+                            }
+                        }
+
+                        var row = `<tr>
+                            <td>${handleEmptyValue(broker.broker_name)}</td>
+                            <td>${handleEmptyValue(broker.app_name)}</td>
+                            <td>${handleEmptyValue(broker.phone_number)}</td>
+                            <td>${handleEmptyValue(broker.logging_id)}</td>
+                            <td>${handleEmptyValue(broker.password)}</td>
+                            <td><p> ${handleEmptyValue(broker.api_key)}</p></td>
+                            <td>${handleEmptyValue(broker.api_secret)}</td>
+                            <td id="totp_key">${generateCellContent(handleEmptyValue(broker.totp_key))}</td>
+                            <td class="${statusColor}">${status}</td>
+                            <td class="${adv_totp_color}">${adv_totp}</td>
+                            <td>${dateTimeString}</td>
+                          </tr>`;
+                        
+                        $('#api_config_table tbody').append(row);
+                    });
+                    // Initialize DataTable after appending data
+                    $('#api_config_table').DataTable({
+                        "dom": '<"top"lf>rt<"bottom"ip><"clear">',
+                    "language": {
+                      "search": '<div class="custom-search" style="position: relative"><i class="bi bi-search" style="position: absolute;right: 7px;top: 10px;"></i></i><input class="form-control" type="search" placeholder="Search" aria-controls="volume_shocker_table"></div>'
+                    }
+                    });
+                    $('#api_config_table_filter input:eq(1)').hide();
+                    $('#api_config_table_filter input[type="search"]').attr('placeholder', 'Search...');
+                    $('#api_config_table').wrap('<div class="parent_table"></div>');
+                    $('#api_config_table_length,#api_config_table_filter').wrapAll('<div class="parent_search_length"></div>');
+
+                    $('.show-data-icon').click(function() {
+                        var sensitiveDataSpan = $(this).prev('.sensitive-data');
+                        var isHidden = sensitiveDataSpan.text() === '************';
+                        sensitiveDataSpan.text(isHidden ? sensitiveDataSpan.data('original-value') : '************');
+                        $(this).toggleClass('bi-eye bi-eye-slash');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Call the function to fetch data and append it to the table
+        fetchDataAndAppendToTable();
+    });
+</script>
+
+
+
+
+
+
+{% endblock dashboard_body %}

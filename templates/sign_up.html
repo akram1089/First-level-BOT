@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fast level Bot | login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- Toastr CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+  </head>
+
+  <style>
+    .main_signup_highlight_bottom{
+     
+        padding: 0 33px !important;
+        display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  height: 100vh; /* Adjust height as needed */
+
+    }
+    .main_signup_inner{
+        box-shadow: rgba(17, 12, 46, 0.15) 10px 48px 100px 10px;
+        padding: 24px 37px;
+    border-radius: 18px;
+
+
+
+}
+  </style>
+  <body>
+
+
+    <div class="col-lg-12 main_signup_highlight_bottom" style="padding: 0 25px 25px 25px;">
+
+        <div class="main_signup_inner">
+
+   
+        <div class="main_signup_img d-flex" style="justify-content: center;">
+
+          <img src="https://optionperks.com/static/img/header_logo_perk.png" style="height: 55px; justify-content: center;" alt="Logo" class="img-fluid">
+        </div>
+
+
+          <div class="mb-2">
+            <label for="modalFullNameSignUp" class="form-label fw-semibold">Full Name</label>
+            <input type="text" class="form-control" name="name" id="modalFullNameSignUp" required placeholder="Enter Name">
+          </div>
+
+          <div class="form-group">
+            <label for="modalPhoneSignUp fw-semibold">Phone Number</label>
+            <div class="row">
+                <div class="col-4 pr-0">
+                    <select name="phone_code" class="form-select"
+                        id="modalCountryCodeSignUp" required>
+                        
+                        <option value="+91">+91</option>
+                    </select>
+                </div>
+
+                <div class="col-8">
+                    <input class="form-control" name="mobile" placeholder="xxxxxxxxx" min="10" max="10"
+                        id="modalPhoneSignUp" type="text" required>
+                </div>
+            </div>
+            <span class="text-danger show-error-text"
+                id="error_mobile"></span> <span
+                class="text-danger show-error-text"
+                id="error_phone_code"></span>
+                <style>
+                  #otpsignup,#validate_otp,.main_retry_otp{
+                    display: none;
+                  }
+
+                  .main_retry_otp{
+
+                    font-size: 13px;
+                    margin-top: 1rem;
+                  }
+                </style>
+        </div>
+          <div class="mb-2" style="position: relative;" id="password_main">
+            <label for="modalPasswordSignUp" class="form-label fw-semibold">Password</label>
+            <input type="password" class="form-control" id="modalPasswordSignUp" name="password" placeholder="Enter your password" aria-describedby="eyeIcon" required>
+            <span class="eye-icon" id="eyeicon" style="cursor: pointer;">
+                <i class="bi-eye-slash" aria-hidden="true"></i>
+            </span>
+         </div>
+          <div class="mb-2" style="position: relative;" id="cpassword_main">
+            <label for="modalPasswordSignUp" class="form-label fw-semibold">Confirm Password</label>
+            <input type="password" class="form-control" id="modalCPasswordSignUp" name="Cofirm_password" placeholder="Enter your password" aria-describedby="eyeIcon" required>
+            <span class="eye-icon" id="confirmEyeIcon" style="cursor: pointer;">
+                <i class="bi-eye-slash" aria-hidden="true"></i>
+            </span>
+         </div>
+         <div class="mb-2" style="position: relative;" id="otpsignup">
+          <label for="modalOTPSignUp" class="form-label fw-semibold">Enter OTP</label>
+          <input type="password" class="form-control modalOTPSignUp" id="modalOTPSignUp" placeholder="Enter your OTP">
+
+      </div>
+      
+
+         <div class="form-group form-check" id="term_conditions">
+          <input class="form-check-input" id="modalAgreeSignUp"
+              name="terms_of_service" required type="checkbox">
+          <label class="form-check-label w-100"
+              for="modalAgreeSignUp">
+              I agree to the <a href='  ' target="_blank">terms of
+                  service</a>
+          </label>
+          <span class="text-danger show-error-text"
+              id="error_terms_of_service"></span>
+      </div>
+
+      <input type="text"  style="display: none;" id="UserID">
+
+      <div class="headersignIN">
+
+
+        <button type="button" class="btn btn-success w-100 mt-3 get_otp_signup" id="headermainSignin">Get OTP</button>
+
+      </div>
+           
+          <button type="button" class="btn btn-success w-100 mt-3 validate_otp" id="validate_otp">Validate OTP</button>
+
+          <div class="main_retry_otp text-center">
+            Retry in 30 sec
+          </div>
+
+    <!-- "Or" option -->
+    <div class="dotted-line-text">
+
+  </div>
+
+    <!-- "Sign in with Google" button using Bootstrap's button styles -->
+     <!-- "Sign in with Google" button using Bootstrap's button styles -->
+     <a href="" class="btn btn-outline-success w-100 mt-3" id="google_btn">
+      <img src="{% static "img/google _png'.png" %} " style="height: 20px;" alt=""> Sign in with Google</a>
+     <!-- <a >Login with Google</a> -->          <p class="text-center mt-2" id="signup_text">Already have an account?   <a data-bs-dismiss='modal' data-bs-toggle='modal' style="cursor: pointer;"
+      data-bs-target='#signinModal' class="text-success" >Sign in now</a></p>
+
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+        <!-- Toastr JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    toastr.options = {
+          "closeButton": true,
+          "debug": true,
+          "newestOnTop": true,
+          "progressBar": false,
+          "preventDuplicates": false,
+          "positionClass": "toast-bottom-right",
+  
+          "showDuration": "3000",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut",
+          "toastClass": "toastr-custom", // Add a custom class
+          "iconClasses": {
+            "success": " toast-success",
+            "error": " toast-error",
+            "warning": " toast-warning"
+        },
+        "escapeHtml": false
+        };
+</script>
+<script>
+    $(document).ready(function () {
+      $(document).on('click', '.get_otp_signup', function() {
+
+
+          // Collect form data using IDs and classes
+          var formData = {
+            name: $('#modalFullNameSignUp').val(),
+       
+            phone_code: $('#modalCountryCodeSignUp').val(),
+            mobile: $('#modalPhoneSignUp').val(),
+            password: $('#modalPasswordSignUp').val(),
+            confirm_password: $('#modalCPasswordSignUp').val(),
+            terms_of_service: $('#modalAgreeSignUp').is(':checked')
+          };
+ // Check for empty fields
+                    var emptyFields = [];
+
+            for (var key in formData) {
+              if (!formData[key]) {
+                emptyFields.push(key);
+              }
+            }
+            // Custom error messages
+                var customErrorMessages = {
+                  'name': 'Please fill in your full name (at least 6 characters)',
+                  'phone_code': 'Please fill in the country code',
+                  'mobile': 'Please fill in a valid phone number (min 10 digits and starts with 6, 7, 8, or 9)',
+                  'password': 'Password should be at least 5 characters',
+                  'confirm_password': 'Please confirm your password',
+                  'password_mismatch': 'Password and Confirm Password do not match',
+                  'terms_of_service': 'Please agree to the terms of service'
+                };
+
+                // Check for empty fields and additional validations
+                var validationFailed = Object.keys(formData).some(function (key) {
+                  if (!formData[key]) {
+                    toastr.clear(); // Clear existing toastr messages
+                    toastr.error(customErrorMessages[key]);
+                    return true; // Stop validation if any field is empty
+                  }
+
+                  if (key === 'name' && formData[key].length < 6) {
+                    toastr.clear();
+                    toastr.error(customErrorMessages[key]);
+                    return true;
+                  }
+
+                  if (key === 'mobile' && (formData[key].length !== 10 || !/^[6-9]\d+$/.test(formData[key]))) {
+                    toastr.clear();
+                    toastr.error(customErrorMessages[key]);
+                    return true;
+                  }
+
+                  if (key === 'password' && formData[key].length < 5) {
+                    toastr.clear();
+                    toastr.error(customErrorMessages[key]);
+                    return true;
+                  }
+
+                  return false; // Continue validation for other fields
+                });
+
+                // Additional check for password match
+                if (!validationFailed && formData.password !== formData.confirm_password) {
+                  toastr.clear();
+                  toastr.error(customErrorMessages.password_mismatch);
+                  validationFailed = true;
+                }
+
+                if (validationFailed) {
+                  return;
+                }
+                
+                // Get CSRF token from cookie
+          var csrfToken =  "{{ csrf_token }}";
+
+
+          // Send AJAX request with CSRF token
+          $.ajax({
+            type: 'POST',
+            url: "user_signUp",
+            contentType: "application/x-www-form-urlencoded",
+            data: JSON.stringify(formData),
+            headers: {
+              'X-CSRFToken': csrfToken
+            },
+            success: function (response) {
+              // Handle success response from the server
+              console.log(response);
+
+              if (response.status==="success") {
+
+                $("#password_main").hide()
+                $("#cpassword_main").hide()
+                $("#term_conditions").hide()
+                $("#otpsignup").show()
+                $("#validate_otp").show()
+                $(".main_retry_otp").show()
+                $(".headersignIN").empty()
+                $(".modalOTPSignUp").val("")
+                    // Add the 'required' attribute dynamically
+                $("#modalOTPSignUp").prop("required", true);
+
+                $("#UserID").val(response.secret_key)
+                startCountdown()
+                toastr.success(response.message);
+                
+              }
+
+              // You can redirect or perform other actions here
+            },
+            error: function (error) {
+              // Handle error response from the server
+    
+              var error_main = JSON.parse(error.responseText);
+              
+              
+              
+              console.log('Error:', error_main);
+              toastr.error(error_main.error);
+              // You can display an error message to the user
+            }
+          });
+        });
+
+        $('#modalPhoneSignUp').on('input', function () {
+          this.value = this.value.replace(/[^0-9]/g, '');
+        });
+                // Countdown timer function
+                function startCountdown() {
+                    var seconds = 30;
+                    var intervalId = setInterval(function () {
+                      if (seconds <= 0) {
+                        clearInterval(intervalId);
+                        $('.main_retry_otp').text('Resend OTP').prop('disabled', false).css("cursor", "pointer");
+
+                      } else {
+                        $('.main_retry_otp').text('Retry in ' + seconds + ' sec').prop('disabled', true).css("cursor", "auto");
+
+                        seconds--;
+                      }
+                    }, 1000);
+                  }
+// Click event for the "Retry now" button
+$('.main_retry_otp').click(function () {
+var csrfToken = "{{ csrf_token }}";
+
+// Collect form data
+var formData = {
+  UserID: $('#UserID').val(),
+  name: $('#modalFullNameSignUp').val(),
+       
+       phone_code: $('#modalCountryCodeSignUp').val(),
+       mobile: $('#modalPhoneSignUp').val(),
+  // Add other form fields as needed
+};
+
+// console.log(formData);
+
+// Only perform the retry action if the button is enabled
+if (!$(this).prop('disabled')) {
+  // Your retry action here
+  startCountdown(); // Restart the countdown
+
+  // Send AJAX request with CSRF token
+  $.ajax({
+      type: 'POST',
+      url: "resend_user_signup",
+      contentType: "application/json", // Change content type to JSON
+      data: JSON.stringify(formData),
+      headers: {
+          'X-CSRFToken': csrfToken
+      },
+      success: function (response) {
+        // {status: true, message: 'OTP has been resent to your number!'}
+
+        if (response.status) {
+          
+          toastr.success(response.message);
+        }
+          // Handle success response from the server
+          console.log(response);
+
+          // You can redirect or perform other actions here
+      },
+      error: function (error) {
+          // Handle error response from the server
+          var error_main = JSON.parse(error.responseText);
+
+          console.log('Error:', error_main);
+          toastr.error(error_main.error);
+
+          // You can display an error message to the user
+      }
+  });
+}
+});
+
+$('#modalPhoneSignUp').on('input', function () {
+this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+
+        $(".validate_otp").click(function () {
+
+                            
+              // Get CSRF token from cookie
+              var csrfToken =  "{{ csrf_token }}";
+
+              // Collect form data using IDs and classes
+              var formData = {
+                UserID: $('#UserID').val(),
+                modalOTPSignUp: $('.modalOTPSignUp').val(),
+                name: $('#modalFullNameSignUp').val(),
+       
+       phone_code: $('#modalCountryCodeSignUp').val(),
+       mobile: $('#modalPhoneSignUp').val(),
+       password: $('#modalPasswordSignUp').val(),
+       confirm_password: $('#modalCPasswordSignUp').val(),
+       terms_of_service: $('#modalAgreeSignUp').is(':checked')
+                // Add other form fields as needed
+              };
+                // Custom error messages
+                var customErrorMessages = {
+
+                      'modalOTPSignUp': 'Please enter the 6 digits OTP',
+                      // Add other fields as needed
+                    };
+
+                    // Check for empty fields and additional validations
+                    var validationFailed = Object.keys(formData).some(function (key) {
+                      if (!formData[key]) {
+                        toastr.clear(); // Clear existing toastr messages
+                        toastr.error(customErrorMessages[key]);
+                        return true; // Stop validation if any field is empty
+                      }
+
+                      if (key === 'modalOTPSignUp' && (formData[key].length !== 6 || !/^\d+$/.test(formData[key]))) {
+                        toastr.clear();
+                        toastr.error(customErrorMessages[key]);
+                        return true;
+                      }
+
+                      return false; // Continue validation for other fields
+                    });
+
+                    if (validationFailed) {
+                      return;
+                    }
+
+              // Send AJAX request with CSRF token
+              $.ajax({
+                type: 'POST',
+                url: "verify_otp",
+                contentType: "application/json", // Correct content type for JSON data
+                data: JSON.stringify(formData),
+                headers: {
+                  'X-CSRFToken': csrfToken
+                },
+                success: function (response) {
+                  // Handle success response from the server
+                  // {"success": false, "message": "Invalid OTP"}
+
+                  if (response.success=== false) {
+                    
+                    toastr.error(response.message);
+                  }
+
+                  console.log(response);
+                  if (response.success) {
+                    $('#modalFullNameSignUp').val("")
+                    
+                    $('#modalCountryCodeSignUp').val()
+                        $('#modalPhoneSignUp').val("")
+                        $('#modalPasswordSignUp').val("")
+                    $('#modalCPasswordSignUp').val("")
+
+                    window.location.href = "/login";
+                           toastr.success(response.message);
+                  
+
+                    
+                  }
+
+                  // You can redirect or perform other actions here
+                },
+                error: function (error) {
+                  // Handle error response from the server
+                  console.error('Error:', error.error);
+                  toastr.error("This number is already registered !!");
+                  // You can display an error message to the user
+                }
+              });
+            });
+$(".singup_signin_page").click(function () {
+
+$("#password_main").show()
+                $("#cpassword_main").show()
+                $("#term_conditions").show()
+                $("#otpsignup").hide()
+                $("#validate_otp").hide()
+                $(".main_retry_otp").hide()
+                $(".headersignIN").empty().append(`<button type="button" class="btn btn-success w-100 mt-3 get_otp_signup" id="headermainSignin">Get OTP</button>`)
+            // Add the 'required' attribute dynamically <button type="button" class="btn btn-success w-100 mt-3 get_otp_signup" id="headermainSignin">Get OTP</button>
+        $("#modalOTPSignUp").prop("required", false);
+})
+
+
+function clearFormFields() {
+$('#modalFullNameSignUp').val("");
+$('#modalPhoneSignUp').val("");
+$('#modalPasswordSignUp').val("");
+$('#modalCPasswordSignUp').val("");
+$('#modalAgreeSignUp').prop('checked', false);
+$('.modalOTPSignUp').val("");
+}
+
+$('#signupModal').on('hidden.bs.modal', function (e) {
+clearFormFields(); // Clear form fields when the modal is closed
+$("#password_main").show()
+$("#cpassword_main").show()
+$("#term_conditions").show()
+$("#headermainSignin").show()
+$(".headersignIN").show()
+$(".get_otp_signup").show()
+$("#otpsignup").hide()
+$("#validate_otp").hide()
+$(".main_retry_otp").hide()
+});
+
+});
+</script>
+<script>
+    $(document).ready(function () {
+      $("#modalCPasswordSignUp").on("blur", function () {
+                checkPassword();
+            });
+      function checkPassword() {
+            var password = $("#modalPasswordSignUp").val();
+            var confirmPassword = $("#modalCPasswordSignUp").val();
+    
+            if (password !== confirmPassword) {
+                toastr.error('Passwords do not match!');
+    
+                return
+    
+                console.log("error");
+            }
+        }
+    
+      $('#eyeicon').on('click', function() {
+       
+           togglePasswordVisibility('#modalPasswordSignUp', '#eyeicon');
+       });
+      
+       $('#confirmEyeIcon').on('click', function() {
+        
+           togglePasswordVisibility('#modalCPasswordSignUp', '#confirmEyeIcon');
+       });
+      
+       function togglePasswordVisibility(passwordFieldId, eyeIconId) {
+            var passwordInput = $(passwordFieldId);
+            var eyeIcon = $(eyeIconId + ' i');
+    
+            console.log("Current type: " + passwordInput.prop('type'));
+            if (passwordInput.prop('type') === 'password') {
+                passwordInput.prop('type', 'text');
+                eyeIcon.removeClass('bi-eye-slash').addClass('bi-eye');
+            } else {
+                passwordInput.prop('type', 'password');
+                eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+            }
+    
+            console.log("New type: " + passwordInput.prop('type'));
+        }
+    });
+    
+      </script>
+</html>
