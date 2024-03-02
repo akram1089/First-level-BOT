@@ -91,6 +91,21 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+import dj_database_url
+
+
+
+DATABASES={
+    'default': dj_database_url.parse('postgres://bot_database_tuo5_user:ENGNsDGDebuHTz6pfxbv0Q49htpVMNJh@dpg-cnhgqrda73kc73b8unag-a.singapore-postgres.render.com/bot_database_tuo5')
+}
+
+
+
+
+
+
 AUTH_USER_MODEL = 'home.User'
 
 # Password validation
