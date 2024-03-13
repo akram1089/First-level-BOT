@@ -78,7 +78,7 @@ cursor: pointer;
   width: 980px; /* Initial width */
   box-shadow: 0px 0px 1px 2px #4399eb3b;
   position: absolute;
-  right: -100px;
+  
 
   border-radius: 8px;
   background-color: white;
@@ -91,195 +91,16 @@ cursor: pointer;
     display: flex;
     gap: 0.2rem;
 }
-.main_api_buttons{
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-}
+
   </style>
   <body>
 
 
 
 
-<div class="main_api_buttons d-flex gap-3 align-items-center">
+<div class="main_api_buttons">
 
 
-
-    
-    <div class="activate_broker_toggle_main_btn" style="position: relative;">
-
-
-
-        <button class="btn_outline_primary btn btn-success" class="all_api_details" data-bs-toggle="collapse" id="Activate_broker_btn" style=" margin-top: 2px;">
-
-          <i class="bi bi-briefcase"></i>
-         <p class="mt-0">        Activate Broker </p>
-          
-          
-
-        </button>
-        
-        <div id="overlay"></div>
-       
-        
-        <div class="" id="active_broker_modal" style="display: none;">
-          <div class="dismiss_active_modal">
-            <!-- <i class="bx bx-plus dismiss_icon_active_modal"></i> -->
-            <div class="triangle-up-active-modal"></div>
-          </div>
-          <div class="modal_dialog">
-            <div class="modal_content">
-
-
-              <div class="all_broker">
-                <div id="zerodha_data_display" class="d-flex" >HIII</div>
-              </div>
-
-
-
-
-
-            </div>
-          </div>
-        </div>
-    </div>
-    <button class="btn_add_broker btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#add_api" aria-controls="add_api">
-        <i class="bi bi-person-add"></i>
-        <p class="m-0">             Add Broker</p>
-      </button>
-
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Add Indicator</button>
-
-
-    </div>
-
-
-      <script>
-        $(document).ready(function () {
-          const optionChainButton = $("#optionChain_canvas");
-          const allApiButton = $("#all_api_button");
-          const optionChainCollapse = $("#collapseExample");
-          const allApiCollapse = $("#all_api_collapse");
-    
-          function toggleChevron($element) {
-            if ($element.hasClass("bx-chevron-down")) {
-              $element.removeClass("bx-chevron-down").addClass("bx-chevron-up");
-            } else {
-              $element.removeClass("bx-chevron-up").addClass("bx-chevron-down");
-            }
-          }
-    
-          optionChainButton.click(function () {
-            allApiCollapse.collapse("hide");
-            optionChainCollapse.collapse("toggle");
-            toggleChevron(optionChainButton.find(".bx"));
-          });
-    
-          allApiButton.click(function () {
-            optionChainCollapse.collapse("hide");
-            allApiCollapse.collapse("toggle");
-            toggleChevron(allApiButton.find(".bx"));
-          });
-    
-    
-    
-          // $("#Activate_broker_btn").click(function () {
-          //   $("#active_broker_modal").slideToggle();
-          // });
-    
-          function checkUserLoggedIn() {
-            $.ajax({
-              type: 'GET',
-              url: '/check_user_logged_in', // Update the URL to the appropriate endpoint
-              success: function (response) {
-                // If the user is logged in, toggle the broker activation modal
-    
-                if (response.user_logged_in) {
-                  $("#signinModal").modal("show");
-                } else {
-    
-                  $("#overlay").fadeIn();
-                  $("#active_broker_modal").slideToggle();
-                }
-              },
-              error: function (xhr, status, error) {
-                // Handle the error, for example, display an error message
-                console.error("Error:", error);
-                alert("Error checking user login status.");
-              }
-            });
-          }
-    
-          $("#Activate_broker_btn").click(function (e) {
-            e.stopPropagation(); // Prevent the click event from propagating to the document
-            checkUserLoggedIn(); // Call the function to check if the user is logged in
-          });
-    
-          // Close the modal when a click occurs anywhere outside of the modal
-          $(document).on("click", function (e) {
-            if (!$("#active_broker_modal").is(e.target) && $("#active_broker_modal").has(e.target).length === 0) {
-              $("#active_broker_modal").slideUp();
-              $("#overlay").fadeOut();
-            }
-          });
-    
-    
-    
-    
-    
-        });
-    
-    
-    
-      </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasRightLabel">Add Your Indicator</h5>
@@ -332,9 +153,6 @@ cursor: pointer;
               </form>
         </div>
       </div>
-
-
-
 
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="add_api" aria-labelledby="offcanvasRightLabel"
@@ -1604,25 +1422,943 @@ checkbox_upstocks.val(value)
     </div>
 
 
+    <style>
+      .banner{
+        background: rgb(2,0,36);
+        background: linear-gradient(93deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
+        display: inline;
+        float: left;
+        /* padding: 60px 0 150px; */
+        padding: 30px 10px 20px 10px;
+        width: 100%;
+    }
 
+    .mu-hero-featured-content {
+      display: inline;
+      float: right;
+      /* margin-top: 50px; */
+      /* text-align: center; */
+      padding: 40px 10px 10px 10px;
+      width: 100%;
+  }
+  .mu-hero-h1 {
+      color: #fff;
+      font-size: 45px;
+      font-weight: 300px;
+      /* text-shadow: 2px 2px #fff; */
+      /* font-family: 'Montserrat', sans-serif; */
+      font-family: 'Poppins', sans-serif;
+  }
+  .mu-hero-h2 {
+      padding: 20px 0px;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 36px;
+      color: #fff;
+      /* font-family: 'Quicksand', sans-serif; */
+      font-family: 'Poppins', sans-serif;
+  }
 
+  .mu-hero-p {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+  }
 
+  .btn-blk {
+      margin-bottom: 30px;
+  }
 
+  .btn-blk a{
+    text-decoration: none;
+}
 
+.btn-light {
+    font-weight: 500;
+    color: #1e2022;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    padding: 0.75rem 1rem;
+    font-size: 18px;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    display: block;
+    width: 100%;
+}
 
+.col-padding {
+    padding-top: 30px;
+}
+.feature-program-div {
+    background-color: #fff;
+    color: #656565;
+    height: 280px;
+    border-radius: 3px;
+    box-shadow: 0 0.375rem 1.5rem 0 rgba(140, 152, 164, 0.125);
+    border: 0.3px solid #e7eaf3;
+}
 
+.serv-img {
+    padding: 10px;
+    text-align: center;
+}
 
+.serv-img img {
+    height: 56px;
+    margin: 0 auto;
+    display: block;
+}
 
+.feature-program-txt {
+  padding: 10px;
+  text-align: center;
+}
+.feature-program-txt h4 {
+  font-weight: 300;
+  color: #1e2022;
+  padding: 10px 0px;
+}
+.why-febinar-program {
+  text-align: center;
+}
+.feature-div {
+  background-color: #fff;
+  color: #656565;
+  height: 300px;
+  border-radius: 3px;
+  box-shadow: 0 0.375rem 1.5rem 0 rgba(140, 152, 164, 0.125);
+  border: 0.3px solid #e7eaf3;
+  margin-bottom: 30px;
+  padding: 20px;
+  text-align: center;
+}
 
+.serv-img {
+  padding: 10px;
+  text-align: center;
+}
 
+.serv-img img {
+  height: 56px;
+  margin: 0 auto;
+  display: block;
+}
 
+#mu-sponsors {
+  background-color: #fff;
+  display: inline;
+  float: left;
+  width: 100%;
+}
 
+.menu-padding {
+  padding: 60px 3px 10px 3px;
+}
+
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.search-item {
+  padding: 30px width: 20%;
+  flex-basis: 200px;
+  flex-grow: 1;
+}
+.pricing-box {
+  background-color: #fff;
+  box-shadow: 0px 6px 6px 1px rgba(140, 152, 164, 0.125);
+  text-align: center;
+  border: 0.5px solid #f9f9f9;
+  margin-bottom: 60px;
+}
+.price-header {
+  background-color: #3f7bd5;
+  padding: 30px 0px 0px 0px;
+}
+.price-header h5 {
+  font-size: 24px;
+  font-weight: 300px;
+  color: #fff;
+  padding: 0px 10px;
+}
+.price-header h2 {
+  font-weight: bold;
+  font-size: 35px;
+  color: #fff;
+  padding: 0px 10px;
+}
+.price-body {
+  padding: 20px 0px;
+}
+.price-body p{
+  margin-bottom: 1rem !important;
+}
+.price-body i{
+  color: #427dff;
+font-size: 17px !important;
+}
+.btn-opa {
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.428571429;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #3f7bd5;
+  border-color: #3f7bd5;
+  font-size: 16px;
+  padding: 12px 28px;
+  transition: 0.2s all ease;
+}
+#mu-sponsors a{
+  text-decoration: none;
+}
+
+.feature_heading{
+  display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+.feature_heading i{
+  font-size: 24px !important;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+.feature-text {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  display: none; /* Hide paragraph text initially */
+}
+.feature-section{
+  border-bottom: 1px solid #00000030;;
+  padding-bottom: 10px;
+}
+.faq_cards h3{
+font-size: 1.2rem !important;
+}
+</style>
+
+<section>
+  <div class="banner">
+    <div class="container">
+      <div class="row">
+         <div class="col-md-6 col-xs-12">
+                 <div class="mu-hero-featured-content">
+                   {% comment %} <h1 class="mu-hero-h1">arrow</h1> {% endcomment %}
+                   <!-- <h2 class="mu-hero-h2">India's First Web Based FREE API Algo Trading Platform</h2> -->
+                   <h2 class="mu-hero-h2">
+                    Boost Your Trading Success with Optionperks's Powerful Automation Tools!
+                   </h2>
+                   <!-- <h2 class="mu-hero-h2">India's First Web Trading Platform with FREE* Bridge and APIs for Auto Trade</h2> -->
+                   <p class="mu-hero-p" style="float: left">
+                     <span style="
+                         padding-right: 20px;
+                         margin-bottom: 20px;
+                         font-weight: 300;
+                       ">Place your orders with custom indicators, strategy from Tradingview,
+                       ChartInk,Excel, GoogleSheet Python.
+                     </span>
+                   </p>
+                 </div>
+                 <div class="row">
+                   <div class="col-md-4 col-xs-12 btn-blk">
+                     <a href="#" data-bs-toggle="collapse" class="btn-light mrgn1" id="Activate_broker_btn">
+                      <i class="bi bi-briefcase" style="margin-right: 12px !important;"></i> Activate Broker</a>
+  
+                      <div id="overlay" style="display: none;"></div>
+                      <div class="" id="active_broker_modal" style="display: none;">
+                        <div class="dismiss_active_modal">
+                          <!-- <i class="bx bx-plus dismiss_icon_active_modal"></i> -->
+                          <div class="triangle-up-active-modal"></div>
+                        </div>
+                        <div class="modal_dialog">
+                          <div class="modal_content">
+              
+              
+                            <div class="all_broker">
+                              <div id="zerodha_data_display" class="d-flex">
+                            <div class="main_broker_card">
+              
+                                              <div class="top_head_broker_card">
+                                                <div class="left_app_name_broker broker_deactive_status">
+              
+                                                  <div class="app_name_main"><h6 class="broker_deactive_status">N54078142</h6></div> <div>-</div> <div class="broker_name_main"><h6 class="broker_deactive_status">angelone</h6></div>
+              
+              
+                                                </div>
+                                                <div class="right_broker_id">
+                                                  <h6> 3</h6>
+                                                </div>
+              
+                                              </div>
+              
+              
+                                              <div class="main_broker_loggin_id">
+                                                <h6>Loggin Id :  <span class="broker_activation_status_text_false">  N54078142</span></h6>
+                                              </div>
+                                              <div class="main_broker_password">
+                                              <h6>Password :  <span class="broker_activation_status_text_false">  <i class="bi bi-asterisk"></i> <i class="bi bi-asterisk"></i> <i class="bi bi-asterisk"></i> <i class="bi bi-asterisk"></i> <i class="bi bi-asterisk"></i></span></h6>
+                                              </div>
+                                              <div class="broker_active_totp"></div>
+              
+                                              <div class="main_broker_action_btn">
+                                              <div class="checkbox-wrapper-14">
+                                                <input id="s1-3" type="checkbox" class="switch activate_api" data-id="3">
+                                                <label for="s1-3">Inactive</label>
+                                              </div>
+              
+                                              <div class="delete_btn_broker ">
+              
+                                                <img class="cursor-pointer edit_broker" width="19px" src="/static/img/delete_edit_btns/edit.png" data-edit_id="3">
+                                                <img src="/static/img/delete_edit_btns/delete.png" width="19px" class="cursor-pointer delete_broker" data-delete_id="3">
+                                      
+                                                
+                                                </div>
+              
+                                              </div>
+              
+                                              </div>
+                            </div>
+                            </div>
+              
+              
+              
+              
+              
+                          </div>
+                        </div>
+                      </div>
+                   </div>
+                   <div class="col-md-4 col-xs-12 btn-blk">
+                    <a data-bs-toggle="offcanvas" data-bs-target="#add_api" class="btn_add_broker btn-light scrl-btn"  aria-controls="add_api">
+                      <i class="bi bi-person-add" style="margin-right: 15px !important;"></i>Add Broker</a>
+                   </div>
+                   <div class="col-md-4 col-xs-12 btn-blk">
+                    
+                     <a href="#" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="btn-light">
+                      Add Indicator</a>
+                      
+                   </div>
+                 </div>
+         </div>
+  
+         <div class="col-md-6 col-xs-12 show-on-desktop">
+             <img src="	https://algomojo.com/assets/images/algomojo-site-head.png" style="margin-top: -21px" width="100%">
+         </div>
+  
+      </div>
+    </div>
+  </div>
+  <div class="services">
+    <div class="container">
+      <h2 style="padding: 40px 3px 10px 3px">SERVICES</h2>
+      <div class="row">
+          
+          <div class="col-md-3 col-sm-6 col-xs-12 col-padding">
+            <div class="feature-program-div">
+              <div class="serv-img">
+                <img src="https://algomojo.com/assets/images/algomojo-bridge.png">
+              </div>
+              <div class="feature-program-txt">
+                <h4>Effortless Integration</h4>
+                  Optionperks-Bridge is a connectivity layer between your
+                  trading platform and your broker.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12 col-padding">
+            <div class="feature-program-div">
+              <div class="serv-img">
+                <img src="https://algomojo.com/assets/images/algomojo-fast.png">
+              </div>
+              <div class="feature-program-txt">
+                <h4>Fast and Reliable</h4>
+                <p>
+                  Runs multiple low latency strategies that trade in bunch of
+                  symbols at a time.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12 col-padding">
+            <div class="feature-program-div">
+              <div class="serv-img">
+                <img src="https://algomojo.com/assets/images/algomojo-api.png">
+              </div>
+              <div class="feature-program-txt">
+                <h4>Seamless API Management</h4>
+                <p>
+                  Optionperks-Bridge is a connectivity layer between your
+                  trading platform and your broker.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12 col-padding">
+            <div class="feature-program-div">
+              <div class="serv-img">
+                <img src="https://algomojo.com/assets/images/algomojo-order-management.png">
+              </div>
+              <div class="feature-program-txt">
+                <h4>Trade Anywhere</h4>
+                <p>
+                  Provides you compelete view of trades placed in
+                  your Trading Account.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>  
+  <div class="how_works mt-4" style="background-image: linear-gradient(150deg,#363795 0%,#005c97 100%); border-radius: 3px;">
+    <div class="container">
+      <div class="why-febinar-program">
+        <h2 style="font-weight: 600;padding: 10px 3px 15px 3px;color: #fff;">How it works?</h2>
+      </div>
+      <div class="container">
+  
+          <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div style="padding: 8px; border-radius: 8px">
+                      <div style="text-align: center">
+                        <img src="https://algomojo.com/assets/images/algomojo-strategy.png" style="height: 100px; margin-top: -20px; margin: 0 auto">
+                        <p style="
+                            margin-left: 10px;
+                            margin-top: 15px;
+                            color: #fff;
+                            font-weight: bold;
+                          ">
+                          Run the strategy in your Software
+                        </p>
+                      </div>
+                    </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div style="padding: 8px; border-radius: 8px">
+                      <div style="text-align: center">
+                        <img src="https://algomojo.com/assets/images/algomojo-apibridge.png" style="height: 100px; margin-top: -20px; margin: 0 auto">
+                        <p style="
+                            margin-left: 10px;
+                            margin-top: 15px;
+                            color: #fff;
+                            font-weight: bold;
+                          ">
+                          Pass the order to Bridge
+                        </p>
+                      </div>
+                    </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div style="padding: 8px; border-radius: 8px">
+                      <div style="text-align: center">
+                        <img src="https://algomojo.com/assets/images/algomojo-trading.png" style="height: 100px; margin-top: -20px; margin: 0 auto">
+                        <p style="
+                            margin-left: 10px;
+                            margin-top: 15px;
+                            color: #fff;
+                            font-weight: bold;
+                          ">
+                          Place the Order in your Trading Terminal
+                        </p>
+                      </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="features_div">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12 col-xs-12">
+              <h2 style="padding: 23px 3px">FEATURES</h2>
+            </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        {% comment %} <div class="col-md-4 col-xs-12">
+          <div class="">
+            <img src="https://algomojo.com/assets/images/algomojo-features.png" style="width: 100%">
+          </div>
+        </div> {% endcomment %}
+        <div class="col-md-12 col-xs-12">
+          <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <div class="feature-div">
+                <div class="serv-img">
+                  <img src="https://algomojo.com/assets/images/algomojo-bridge.png">
+                </div>
+                <h4>Effortless Integration</h4>
+                <p>
+                  <b>Optionperks-Bridge</b> is a connectivity layer between your
+                  trading platform and your broker.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <div class="feature-div">
+                <div class="serv-img">
+                  <img src="https://algomojo.com/assets/images/algomojo-api.png">
+                </div>
+                <h4>Seamless API Management</h4>
+                <p>
+                  <b>Optionperk-API</b> enables developers to build automated
+                  trading solutions on the optionperks infrastructure.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <div class="feature-div">
+                <div class="serv-img">
+                  <img src="https://algomojo.com/assets/images/algomojo-order-management.png">
+                </div>
+                <h4>Trade Anywhere</h4>
+                <p>
+                  Provides you compelete view of <b>trades</b> placed in
+                  your Trading Account.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <div class="feature-div">
+                <div class="serv-img">
+                  <img src="{% static 'img/delete_edit_btns/multiplebroker.png' %}">
+                </div>
+                <h4>API and Broker</h4>
+                <p>
+                  Optionperks extends its comprehensive support to a multitude of brokers and APIs, encompassing Kt (Zerodha's Kite), Upstox, Fyers, Alice blue, Angel Broking (Angel One), Tradingview . This diverse range of compatible platforms ensures that users can seamlessly connect to their preferred trading and financial services through optionperks.
+                </p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="mu-sponsors">
+        <div class="" style="background-color: #f9f9f9">
+          <div class="container">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12 col-xs-12">
+                  <h2 class="menu-padding">PRICING</h2>
+                </div>
+              </div>
+              <div class="row search-container">
+                <div class="col-md-3 col-xs-12 search-item">
+                  <div class="pricing-box">
+                    <div class="price-header">
+                      <h5>3 DAYS</h5>
+                      <h2><i class="bx bx-rupee"></i> 199</h2>
+                      <img src="https://algomojo.com/assets/images/algomojo-pricing-wave.png" alt="pricing wave image" width="100%">
+                    </div>
+                    <div class="price-body">
+                        <p><i class="bx bx-check"></i> Trade on NSE, NFO, MCX, CDS</p>
+                        <p><i class="bx bx-check"></i>Unlimited with TradingView</p>
+                        <p><i class="bx bx-check"></i>Unlimited with Chartink</p>
+                        <p><i class="bx bx-check"></i>Options Algo: Unlimited Trading</p>
+                        <p><i class="bx bx-check"></i> All Major Indian Brokers</p>
+                        <p>
+                          <i class="bx bx-check"></i> Multibroker Connectivity
+                        </p>
+                      <!-- <p style="margin-bottom: 15px;"><i class="bx bx-check"></i> Open Trading account<br /> with us</p> -->
+                      <a href="#" target="_blank" class="btn-opa">GET MEMBERSHIP</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-xs-12 search-item">
+                  <div class="pricing-box">
+                    <div class="price-header">
+                      <h5>1 MONTH</h5>
+                      <h2><i class="bx bx-rupee"></i> 999</h2>
+                      <img src="https://algomojo.com/assets/images/algomojo-pricing-wave.png" alt="pricing wave image" width="100%">
+                    </div>
+                    <div class="price-body">
+                        <p><i class="bx bx-check"></i> Trade on NSE, NFO, MCX, CDS</p>
+                        <p><i class="bx bx-check"></i>Unlimited with TradingView</p>
+                        <p><i class="bx bx-check"></i>Unlimited with Chartink</p>
+                        <p><i class="bx bx-check"></i>Options Algo: Unlimited Trading</p>
+                        <p><i class="bx bx-check"></i> All Major Indian Brokers</p>
+                        <p>
+                          <i class="bx bx-check"></i> Multibroker Connectivity
+                        </p>
+                      <a href="#" target="_blank" class="btn-opa">GET MEMBERSHIP</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-xs-12 search-item">
+                  <div class="pricing-box">
+                    <div class="price-header">
+                      <h5>3 MONTH</h5>
+                      <h2><i class="bx bx-rupee"></i> 2,697.3</h2>
+                      <img src="https://algomojo.com/assets/images/algomojo-pricing-wave.png" alt="pricing wave image" width="100%">
+                    </div>
+                    <div class="price-body">
+                        <p><i class="bx bx-check"></i> Trade on NSE, NFO, MCX, CDS</p>
+                        <p><i class="bx bx-check"></i>Unlimited with TradingView</p>
+                        <p><i class="bx bx-check"></i>Unlimited with Chartink</p>
+                        <p><i class="bx bx-check"></i>Options Algo: Unlimited Trading</p>
+                        <p><i class="bx bx-check"></i> All Major Indian Brokers</p>
+                        <p>
+                          <i class="bx bx-check"></i> Multibroker Connectivity
+                        </p>
+                      <a href="#" target="_blank" class="btn-opa">GET MEMBERSHIP</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-xs-12 search-item">
+                  <div class="pricing-box">
+                    <div class="price-header">
+                      <h5>6 MONTH</h5>
+                      <h2><i class="bx bx-rupee"></i> 4,795.2</h2>
+                      <img src="https://algomojo.com/assets/images/algomojo-pricing-wave.png" alt="pricing wave image" width="100%">
+                    </div>
+                    <div class="price-body">
+                      <p><i class="bx bx-check"></i> Trade on NSE, NFO, MCX, CDS</p>
+                      <p><i class="bx bx-check"></i>Unlimited with TradingView</p>
+                      <p><i class="bx bx-check"></i>Unlimited with Chartink</p>
+                      <p><i class="bx bx-check"></i>Options Algo: Unlimited Trading</p>
+                      <p><i class="bx bx-check"></i> All Major Indian Brokers</p>
+                      <p>
+                        <i class="bx bx-check"></i> Multibroker Connectivity
+                      </p>
+                      <a href="#" target="_blank" class="btn-opa">GET MEMBERSHIP</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-xs-12 search-item">
+                  <div class="pricing-box">
+                    <div class="price-header">
+                      <h5>YEARLY</h5>
+                      <h2><i class="bx bx-rupee"></i> 8,391.6</h2>
+                      <img src="https://algomojo.com/assets/images/algomojo-pricing-wave.png" alt="pricing wave image" width="100%">
+                    </div>
+                    <div class="price-body">
+                      <p><i class="bx bx-check"></i> Trade on NSE, NFO, MCX, CDS</p>
+                      <p><i class="bx bx-check"></i>Unlimited with TradingView</p>
+                      <p><i class="bx bx-check"></i>Unlimited with Chartink</p>
+                      <p><i class="bx bx-check"></i>Options Algo: Unlimited Trading</p>
+                      <p><i class="bx bx-check"></i> All Major Indian Brokers</p>
+                      <p>
+                        <i class="bx bx-check"></i> Multibroker Connectivity
+                      </p>
+                      <a href="#" target="_blank" class="btn-opa">GET MEMBERSHIP</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+  </section>
+  <section id="mu-faq" style="background-color: #f8fafc; padding: 40px !important;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <div class="mu-about-area" style="padding: 30px;">
+            <div class="oh-speaker-title" style="text-align: center">
+              <h1>Frequently Asked Questions</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+      <div class="col-md-2 col-xs-12"></div>
+      <div class="col-md-10 col-xs-12">
+        <div class="mu-faq-area" style="background-color: #f8fafc;">
+          <div class="faq-title">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-xs-12"></div>
+    </div> -->
+
+      <div class="row">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div class="feature_heading">
+                <h3>What is a Bot?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+                Bots execute trading strategies inside your portfolio. Bots are the home for your positions, risk management, and automations. You are in complete control of your bot's activity and tell them what to do and when to do it. You can automate all of your strategy from entry to exit, or create hybrid manual-automated strategies.
+            </p>
+          </div>
+        </div> 
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>What are the services provided by Optionperks?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Optionperks provided end to end requirements of an Algo trader
+              right from Automated Trading Education, API connectivity to
+              multiple brokers, Execution module and sample codes to
+              multiple trading platforms, Datafeed to the various platforms,
+              trading bridge, Datafeed API, Virtual servers, free strategy
+              libraries, Code development, and community support.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>What is an automation?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+                Automations are the instruction manual for your bots. You can use automations to scan the market for opportunities, open positions, manage your trades, and more. Automations run at 15 minute intervals, or you can run them on custom schedules.<br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>
+                    How do you automate trading from Tradingview?
+                </h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+                To buy and sell on your strategy or indicator on Tradingview, you need to create alerts and add Nextlevelbot syntax to those alerts for buying and selling. When your Tradingview strategy generates an alert, the buy and sell information associated with that alert is sent to your broker with the help of Nextlevelbot. To clarify or know in detail please call us on our support number.<br>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>
+                  What is the trading platform support by the Optionperks Platform?
+                </h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Optionperks Supports Amibroker, Tradingview, Excel, Metatrader,
+              Python, C# based Applications.<br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>Who are the supported brokers?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Currently, Optionperks Supports Angel One, Fyers, Upstox, Icici, Zerodha<br>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div class="feature_heading">
+                <h3>
+                  Can you recommend which broker to open a trading account?
+                </h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              We are broker-neutral and we like to provide a wide array of
+              choices and the users of Optionperks can choose their own
+              favorite brokers.<br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>Does Optionperks provides any guarantee on returns?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Absolutely Not. The trader has to take complete responsibility
+              for their trading strategies. Optionperks will neither take any
+              responsibility for the returns of traders.<br>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>How Secure is Optionperks?</h3> <span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Optionperks provides enterprise-level security for the users and
+              provides a resilient, secure, extensible, and scalable
+              environment for the users.<br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>How can I get Optionperks Support?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Optionperks users by default get Chat Support and Ticket Support.
+              Alternatively users also can mail their queries to
+              support@Optionperks.com<br>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>Will Optionperks Stores the Login ID and Password?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Absolutely Not, Users will have to mandatorily enter the login
+              id and password on daily basis in their respective brokers
+              portal while logged into Optionperks platform. Optionperks will not
+              store any of the trader's login id/passwords.<br>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 faq_cards">
+          <div class="feature-section">
+            <div  class="feature_heading">
+                <h3>Will Optionperks Provide Any In-Built Strategies?</h3><span class="toggle-icon"><i class='bx bx-plus'></i></span>
+            </div>
+            <p class="feature-text">
+              Optionperks will not provide In-Built Trading Strategies.
+              However, from the Trading Library users can download the
+              trading strategies which can be integrated with the traders
+              favorite platform.<br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> 
+    
+</section>
+    
 
 
 
 
 <script>
     $(document).ready(function () {
+
+
+      $('.toggle-icon').click(function() {
+        // Toggle visibility of the next sibling paragraph text
+        $(this).parent().next('.feature-text').slideToggle('slow');
+        var $icon = $(this).find('i');
+if ($icon.hasClass('bx-plus')) {
+  $icon.removeClass('bx-plus').addClass('bx-minus');
+  $icon.animate({ deg: 180 }, {
+    duration: 200,
+    step: function(now) {
+      $(this).css({ transform: 'rotate(' + now + 'deg)' });
+    }
+  });
+} else {
+  $icon.removeClass('bx-minus').addClass('bx-plus');
+  $icon.animate({ deg: 0 }, {
+    duration: 200,
+    step: function(now) {
+      $(this).css({ transform: 'rotate(' + now + 'deg)' });
+    }
+  });
+}
+      });
+
+
+      const optionChainButton = $("#optionChain_canvas");
+      const allApiButton = $("#all_api_button");
+      const optionChainCollapse = $("#collapseExample");
+      const allApiCollapse = $("#all_api_collapse");
+  
+      function toggleChevron($element) {
+        if ($element.hasClass("bx-chevron-down")) {
+          $element.removeClass("bx-chevron-down").addClass("bx-chevron-up");
+        } else {
+          $element.removeClass("bx-chevron-up").addClass("bx-chevron-down");
+        }
+      }
+  
+      optionChainButton.click(function () {
+        allApiCollapse.collapse("hide");
+        optionChainCollapse.collapse("toggle");
+        toggleChevron(optionChainButton.find(".bx"));
+      });
+  
+      allApiButton.click(function () {
+        optionChainCollapse.collapse("hide");
+        allApiCollapse.collapse("toggle");
+        toggleChevron(allApiButton.find(".bx"));
+      });
+  
+  
+  
+      // $("#Activate_broker_btn").click(function () {
+      //   $("#active_broker_modal").slideToggle();
+      // });
+  
+      function checkUserLoggedIn() {
+        $.ajax({
+          type: 'GET',
+          url: '/check_user_logged_in', // Update the URL to the appropriate endpoint
+          success: function (response) {
+            // If the user is logged in, toggle the broker activation modal
+  
+            if (response.user_logged_in) {
+              $("#signinModal").modal("show");
+            } else {
+  
+              $("#overlay").fadeIn();
+              $("#active_broker_modal").slideToggle();
+            }
+          },
+          error: function (xhr, status, error) {
+            // Handle the error, for example, display an error message
+            console.error("Error:", error);
+            alert("Error checking user login status.");
+          }
+        });
+      }
+  
+      $("#Activate_broker_btn").click(function (e) {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+        checkUserLoggedIn(); // Call the function to check if the user is logged in
+      });
+  
+      // Close the modal when a click occurs anywhere outside of the modal
+      $(document).on("click", function (e) {
+        if (!$("#active_broker_modal").is(e.target) && $("#active_broker_modal").has(e.target).length === 0) {
+          $("#active_broker_modal").slideUp();
+          $("#overlay").fadeOut();
+        }
+      });
+  
+
+
       // Set default selected option
       $("#all_brokers").val("zerodha");
 

@@ -110,8 +110,72 @@ cursor: pointer;
 h5,p{
     margin-bottom: 0;
 }
+
+.footer{
+  color: white;
+}
+.footer a{
+  text-decoration: none;
+  color: white;
+}
+.footer_content{
+  padding: 30px 0;
+  border-top: 2px solid #22497b;
+  border-bottom: 2px solid #22497b;
+}
+
+.social_icons ul li {
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 8px;
+  color: white;
+  transition: .8s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#signup-btn{
+  background-color: #59aaf9;
+    box-shadow: #59aaf9 0 10px 20px -10px;
+    color: white;
+    border: none;
+    padding: 7px 22px;
+    border-radius: 5px;
+    font-size: 14px;
+    /* font-weight: bold; */
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#signin-btn{
+  padding: 6px 20px;
+  color: white !important;
+  border: 2px solid #59aaf9;
+  background: transparent;
+  border-radius: 5px;
+}
+.user_details_dropdown{
+  
+  left: 85% !important;
+}
+.footer_broker_list li{
+  margin: 17px 0;
+}
+
+.comapny ul li{
+  margin: 8px 0;
+}
+.top_features ul li{
+  margin: 8px 0;
+}
 </style>
-    <nav>
+    {% comment %} <nav>
         <div class="main_navbar">
 
             <div class="logo_header">
@@ -163,7 +227,7 @@ h5,p{
                     
                         </ul>
                       </div>
-                    </div>
+                  </div>
                         
                           {% else %}
                           <div class="main_not_authenticated_items d-flex gap-3 align-items-center">
@@ -181,7 +245,62 @@ h5,p{
             </div>
 
         </div>
-    </nav>
+    </nav>  {% endcomment %}
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <a href="/"> <img src="https://optionperks.com/static/img/OptionPerksLogo-2-14-24.png" alt="OptionPerks Logo" width="180px"></a>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">SERVICES</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="#">FEATURES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">STRATEGIES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">INDICATOR</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">SYMBOL</a>
+            </li>
+          </ul>
+        {% if user.is_authenticated %}
+        
+          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if user.full_name %}
+                       
+            {{ user.full_name }}
+            {% elif user.username %}
+            {{ user.username }}
+            {% else %}
+              ADMIN
+            {% endif %}
+          </button>
+         <ul class="dropdown-menu dropdown-menu-dark user_details_dropdown">
+           <li><a class="dropdown-item" href="{% url 'broker_details' %}">Broker Details</a></li>
+           <li><a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a></li>
+         </ul>
+          {% else %}
+          <form class="authentication_form d-flex gap-3" role="search">
+              <button class="" id="signup-btn" ><a href="{% url 'signup_page' %}" style="text-decoration: none; color: white !important;">Sign Up</a> </button>
+              <button class="" id="signin-btn"><a href="{% url 'login_page' %}" style="text-decoration: none; color:#59aaf9 !important;">Sign In</a> </button>
+          </form>
+          {% endif %} 
+        </div>
+      </div>
+    </nav> 
 
 
 
@@ -195,7 +314,73 @@ h5,p{
     {% endblock dashboard_body %}
 
 
-
+    <footer class="footer" style="background-image: linear-gradient(150deg,#363795 0%,#005c97 100%);">
+      <div class="container" style="padding: 40px;">
+        <div class="row footer_content">
+          <div class="col-lg-3">
+            <h5>Top 5 Brokers</h5>
+            <div>
+              <ul class="footer_broker_list list-unstyled">
+                <li>Angel One</li>
+                <li>Upstox</li>
+                <li>Zerodha</li>
+                <li>ICICI</li>
+                <li>5 Paisa</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <h5>Comapny</h5>
+            <div class="comapny">
+              <ul class="list-unstyled">
+                <li><a href=" "> About us</a></li>
+                <li><a href="">Blog</a></li>
+                <li><a href="/terms_conditions">Terms &amp; Conditions</a></li>
+                <li><a href="/privacy_policy">Privacy Policy</a></li>
+                <li><a href="">Disclaimers</a></li>
+                <li><a href="">Limitation of liability</a></li>
+                <li><a href="">Refund &amp; cancellation policy</a></li>
+                <li><a href="/contact_us">Contact us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3">
+           <h5>Top Features</h5> 
+           <div class="top_features">
+            <ul class="list-unstyled">
+              <li><a href="">Seamless API Management</a></li>
+              <li><a href="">Trade Anywhere</a></li>
+              <li><a href="">Effortless Integration</a></li>
+              <li><a href="">Effortless Integration</a></li>
+            </ul>
+           </div>
+          </div>
+          <div class="col-lg-3">
+           <h5>Subscribe to NewsLetter</h5> 
+           <span class="fw-light" style="    font-size: 14px;">Sign up and receive the latest tips via email.</span>
+           <div action="" class="mt-3">
+            <div class="input-group mb-3" id="subscribe_main">
+              <input type="email" class="form-control subscribe_input" id="subscriber" placeholder="Enter your email address" aria-label="Username" aria-describedby="basic-addon1" style="background-color: transparent; color: white; ::placeholder { color: white !important; }">
+            </div>
+            <button class="btn btn-primary footer_btn col-md-12 fw-light" id="subscribe_mail">SUBSCRIBE</button>
+           </div>
+          </div>
+        </div>
+        <div>
+          <div class="social_icons">
+            <div style="padding-top: 30px;"></div>
+          <ul class="list-unstyled d-flex gap-2" style="flex-wrap: wrap;">
+            <a href="https://t.me/optionperks" target="_blank"><li><i class="bx bxl-telegram"></i></li></a>
+            <a href="https://twitter.com/optionperks" target="_blank"><li><i class="bx bxl-twitter"></i></li></a>
+            <a href="https://www.facebook.com/profile.php?id=61555824100742" target="_blank"><li><i class="bx bxl-facebook-square"></i></li></a>
+            <a href="https://www.instagram.com/optionperks.algo/" target="_blank"><li><i class="bx bxl-instagram"></i></li></a>
+            <a href="" target="_blank"><li><i class="bx bxl-linkedin"></i></li></a>
+            <a href="https://www.youtube.com/channel/UCe_jSdVO9qU-fM_p9FC79QQ" target="_blank"><li><i class="bx bxl-youtube"></i></li></a>
+          </ul>
+        </div>
+        </div>
+      </div>
+    </footer>
 
 
 
