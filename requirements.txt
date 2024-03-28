@@ -51,6 +51,7 @@ typing_extensions==4.10.0
 tzdata==2023.3
 upstox-python-sdk==2.2.0
 urllib3==2.2.1
+user-agents==2.2.0
 webdriver-manager==4.0.1
 websocket==0.2.1
 wsproto==1.2.0
