@@ -1,0 +1,874 @@
+{% extends "base.html" %}
+{% load static %}
+{% block dashboard_body %}
+
+
+<style>
+    .user_photo {
+        font-size: 5rem !important;
+    }
+
+    .user_options {
+        padding-left: 0 !important;
+    }
+
+    .user_options li {
+        margin-top: 13px;
+    }
+
+    .active {
+        color: #279af4;
+    }
+
+    .profile_button {
+        color: white !important;
+        background: #4399eb !important;
+        border: 1px solid #4399eb !important;
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    .user_options li {
+        cursor: pointer;
+        border-bottom: 1px solid rgba(62, 62, 62, 0.375);
+        padding: 5px;
+    }
+    .order_details_table table thead{
+        background: linear-gradient(180deg, #4399eb, #5cadfb);
+    color: #fff;
+    }
+    .order_details_table table tbody tr td{
+     padding: 18px !important;
+    }
+    .options_for_user{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding:20px;
+    }
+    .users_data{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding:20px;
+    }
+    .subscript {
+        position: relative;
+    }
+
+    .subscript sub {
+        background-color: #4343439f; 
+        padding: 1px;
+        border-radius: 3px;
+        
+    }
+    .table_active{
+        color: #279af4;
+        border-bottom: 3px solid #279af4;
+        /* padding-bottom: 10px; */
+    }
+    .charge{
+        margin-bottom: 0 !important;
+        cursor: pointer;
+    }
+
+    .login_details{
+        /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+        padding: 20px;
+    }
+
+    .logout_button:hover {
+    color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+.main_ip_address{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
+    background: linear-gradient(180deg, #4399eb, #5cadfb) !important;
+    color: white !important;
+}
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus{
+
+    box-shadow: none;
+    background:  #5cadfb!important;
+    color: white !important;
+}
+
+.user_login_history_table_main table thead th{
+    padding: 12px 15px !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    background: #4399eb !important;
+    color: #fff !important;
+
+}
+
+.user_login_history_table_main {
+    border-radius: 10px;
+
+    overflow: auto;
+}
+</style>
+<section>
+    <div class="user_account_details p-5">
+
+        <div class="user_account_name">
+            <h5>User Account's</h5>
+
+        </div>
+        <hr>
+        <div class="row mt-5">
+            <div class="col-lg-3 options_for_user">
+                <div class="user_history">
+                    <div class="profile_photo ">
+                        <img src="{%   static   "/img/4715330.png" %}" alt="" height=" 80px" style="margin-left: 30px;">
+                        <div class="user_name_email">
+                            <h5 id="usr_name"></h5>
+                            <span style="font-size: 12px;" id="usr_email"></span>
+                        </div>
+                    </div>
+                    <ul class="user_options mt-4">
+                        <li class="active" data-id="personal" id="personal_info">Personal Information</li>
+                        <li data-id="order" id="order_history">Order History</li>
+                        <li data-id="billing" id="billing_pay">Billing & Payments</li>
+                        <li data-id="subscription" id="subscript">Subscriptions</li>
+                        <li data-id="login_history" id="log_history">Login History</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9 users_data">
+                <div class="row personal_information">
+                    <div class="col-lg-12">
+                        <div class="">
+                            <h5>Account Details</h5>
+                            <!-- <span>Profile information</span> -->
+                            <div class="user_field mt-4">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="full_name" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                                        </div>
+        
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Mobile Number</label>
+                                            <input type="text" class="form-control" id="mobile_num" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">State</label>
+                                            <input type="text" class="form-control" id="state" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Status</label>
+                                            <input type="text" class="form-control" id="status" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <button class="profile_button">Update</button>
+                            </div>
+                        </div>
+                    </div>
+         
+                </div>
+               
+
+                <div class="billing_payments" style="display: none;">
+                    <h1>Billing</h1>
+                </div>
+                <div class="order_history" style="display: none;">
+                    <h5>Order history</h5>
+                    <div class="order_table">
+                        <div class="broker_filter">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Select Broker</option>
+                                <option value="1">Zerodha</option>
+                                <option value="2">Upstocx</option>
+                                <option value="3">Angle One</option>
+                              </select>
+                        </div>
+                        <div class="filter_table mt-3 d-flex justify-content-between">
+                            <div class="filter_one_table">
+                              <ul class="d-flex gap-3">
+                                <li class="table_active" data-filter="all">All Orders</li>
+                                <li data-filter="open_order" >Open Orders</li>
+                                <li data-filter="executed">Executed Orders</li>
+                                <li data-filter="stop_loss">Stoploss Orders</li>
+                              </ul> 
+                            </div>
+                            <div class="filter_two_table d-flex align-items-center gap-2">
+                               <div class="order_search">
+                                <input type="text" name="" id="" class="form-control" placeholder="search">
+                               </div>
+                               <p class="charge" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Charges</p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style="z-index: 999999999999;">
+                            <div class="offcanvas-header">
+                              <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Charges</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                              
+                            </div>
+                          </div>
+
+                        <div class="orders_table">
+                            <table class="table" id="all_order">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">LTP</th>
+                                    <th scope="col">P & L</th>
+                                    <th scope="col">Qty.</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;"> Rejected</span></td>
+                                   </tr>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td > <span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span></td>
+                                   </tr>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(150, 150, 251, 0.774); color: blue; padding: 3px; font-size: 9px;"> BUY</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                   </tr>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                   </tr>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                   </tr>
+                                   <tr>
+                                    <td>11:48:28</td>
+                                    <td><span style="background-color: rgba(150, 150, 251, 0.774); color: blue; padding: 3px; font-size: 9px;"> BUY</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                    <td>25.05</td>
+                                    <td></td>
+                                    <td>0/50</td>
+                                    <td>56.1</td>
+                                    <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                   </tr>
+                                   <tr>
+                                   <td></td>
+                                   <td></td>
+                                   <td>Total</td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   </tr>
+                                </tbody>
+                            </table>
+                            <table class="table" id="open_order" style="display: none;">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">LTP</th>
+                                    <th scope="col">P & L</th>
+                                    <th scope="col">Qty.</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                </tbody>
+                            </table>
+                            <table class="table" id="executed_order" style="display: none;">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Time</th>
+                                      <th scope="col">Instrument</th>
+                                      <th scope="col">LTP</th>
+                                      <th scope="col">P & L</th>
+                                      <th scope="col">Qty.</th>
+                                      <th scope="col">Price</th>
+                                      <th scope="col">Status</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                    <tbody>
+                                        <tr id="hover-row" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="bottom" data-bs-content="">
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;"> Rejected</span></td>
+                                        </tr>
+                                        <tr>
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td > <span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span></td>
+                                        </tr>
+                                        <tr>
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(150, 150, 251, 0.774); color: blue; padding: 3px; font-size: 9px;"> BUY</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                        </tr>
+                                        <tr>
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                        </tr>
+                                        <tr>
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 3px; font-size: 9px;"> SELL</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                        </tr>
+                                        <tr>
+                                         <td>11:48:28</td>
+                                         <td><span style="background-color: rgba(150, 150, 251, 0.774); color: blue; padding: 3px; font-size: 9px;"> BUY</span> <span style="color: #8474c0; background-color: rgba(209, 157, 249, 0.637); padding: 3px; font-size: 9px;">NRML</span> NIFTY 16<sup>th</sup> Nov 19950 CE</td>
+                                         <td>25.05</td>
+                                         <td></td>
+                                         <td>0/50</td>
+                                         <td>56.1</td>
+                                         <td ><span style="background-color: rgba(253, 126, 126, 0.544); color: red; padding: 4px;">Rejected</span> </td>
+                                        </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        </tr>
+                                     </tbody>
+                                  
+                                </tbody>
+                            </table>
+                            <table class="table" id="stop_loss_order" style="display: none;">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">LTP</th>
+                                    <th scope="col">P & L</th>
+                                    <th scope="col">Qty.</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <div class="order_details_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Qty.</th>
+                                    <th scope="col">Avg Price</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>10-11-2023</td>
+                                    <td class="subscript">SBIN <sub>NSE</sub></td>
+                                    <td class="text-primary">BUY</td>
+                                    <td>1/1</td>
+                                    <td>261.5</td>
+                                    <td ><span style="border: 1px solid green; padding: 3px; color: green;">COMPLETE</span> </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>10-11-2023</td>
+                                    <td class="subscript">RELIANCE <sub>NSE</sub></td>
+                                    <td class="text-primary">BUY</td>
+                                    <td>0/5</td>
+                                    <td>255</td>
+                                    <td><span style="border: 1px solid blue; padding: 3px; color: blue;">CANCLLED</span> </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>10-11-2023</td>
+                                    <td class="subscript">NIFTY16DECFUT <sub>NSE</sub></td>
+                                    <td class="text-primary">BUY</td>
+                                    <td>0/75</td>
+                                    <td>8500</td>
+                                    <td> <span style="border: 1px solid red; padding: 3px; color: red;"> REJECTED</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>10-11-2023</td>
+                                    <td class="subscript">NIFTY16DECFUT <sub>NSE</sub></td>
+                                    <td class="text-primary">BUY</td>
+                                    <td>0/75</td>
+                                    <td>8500</td>
+                                    <td> <span style="border: 1px solid red; padding: 3px; color: red;"> REJECTED</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> -->
+                </div>
+                <div class="subscriptions" style="display: none;">
+                    <h1>Subscriptions Coming Soon</h1>
+                </div>
+                <div class="login_history_section" style="display: none;">
+                    <div class="col-lg-12">
+                        <div class="login_details">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <h5>Login History</h5>
+                              <button class="btn btn-danger logout_button">Logout Everywhere</button>
+                            </div>
+
+                              <div class="user_login_history_table_main mt-2">
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Browser</th>
+                                        <th>IP Address</th>
+                                        <th>Country</th>
+                                        <th>Login Time</th>
+                                    </thead>
+
+                                    <tbody class="user_history_table_body">
+                                        
+                                    </tbody>
+                                </table>
+                              </div>
+                     
+                     
+                                <div>
+          
+                            
+                                </div>
+                    
+              
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+           
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+        // Retrieve filter_init_id from localStorage
+        var filter_init_id = localStorage.getItem("filter_init_id") || "personal";
+
+        // Set the active class based on the retrieved filter_init_id
+        $(".user_options li").removeClass("active");
+        $(".user_options li[data-id='" + filter_init_id + "']").addClass("active");
+
+        // Display the appropriate section based on filter_init_id
+        if (filter_init_id == "personal") {
+            $(".personal_information").show();
+            $(".billing_payments, .order_history, .subscriptions,.login_history_section").hide();
+            $(".profile_photo").show();
+        } else if (filter_init_id == "billing") {
+            $(".personal_information, .order_history, .subscriptions,.login_history_section").hide();
+            $(".billing_payments").show();
+              
+        } else if (filter_init_id == "order") {
+            $(".personal_information, .billing_payments, .subscriptions,.login_history_section").hide();
+            $(".order_history").show();
+              
+        } else if (filter_init_id == "subscription") {
+            $(".personal_information, .billing_payments, .order_history,.login_history_section").hide();
+            $(".subscriptions").show();
+              
+        
+        } else if (filter_init_id == "login_history") {
+            $(".personal_information, .billing_payments, .order_history,.subscriptions").hide();
+            $(".login_history_section").show();
+              
+        }
+
+        $(".user_options li").click(function () {
+            $(".user_options li").removeClass("active");
+            $(this).addClass("active");
+            filter_init_id = $(this).data("id");
+
+            // Store filter_init_id in localStorage
+            localStorage.setItem("filter_init_id", filter_init_id);
+
+            // Update the view based on the selected filter_init_id
+            if (filter_init_id == "personal") {
+                $(".personal_information").show();
+                $(".billing_payments, .order_history, .subscriptions,.login_history_section").hide();
+                $(".profile_photo").show();
+            } else if (filter_init_id == "billing") {
+                $(".personal_information, .order_history, .subscriptions,.login_history_section").hide();
+                $(".billing_payments").show();
+                 
+            } else if (filter_init_id == "order") {
+                $(".personal_information, .billing_payments, .subscriptions,.login_history_section").hide();
+                $(".order_history").show();
+                 
+            } else if (filter_init_id == "subscription") {
+                $(".personal_information, .billing_payments, .order_history,.login_history_section").hide();
+                $(".subscriptions").show();
+                 
+            }
+            else if (filter_init_id == "login_history") {
+                $(".personal_information, .billing_payments, .order_history,.subscriptions").hide();
+                $(".login_history_section").show();
+                 
+            }
+    
+        });
+
+        function get_data() {
+            $.ajax({
+                type: "post",
+                url: "get_user_data/",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if(data.status){
+                      $("#status").val("Active")
+                    }
+                    else{
+                        $("#status").val("Inactive")
+                    }
+                    $('.profile_button').attr('data-id', data.id);
+                    $('#full_name').val(data.full_name).prop('disabled', true);
+                    $("#usr_name").text(data.full_name)
+                    $("#usr_email").text(data.email)
+                    $('#email').val(data.email).prop('disabled', true);;
+                    $('#state').val(data.State);
+                    $('#mobile_num').val(data.Mobile_number);
+                }
+
+            })
+        }
+        get_data()
+
+
+        $(".profile_button").click(function () {
+            updateData()
+        })
+
+        function updateData() {
+            // Assume you have the data with an ID, replace it with your actual data
+            var data = {
+                id: $(".profile_button").data("id"), // Replace with your actual ID
+                // Include other updated data fields
+                full_name: $('#full_name').val(),
+                email: $('#email').val(),
+                state: $('#state').val(),
+                mobile_num: $('#mobile_num').val()
+            };
+
+            // Add CSRF token to the data
+            data['csrfmiddlewaretoken'] = '{{ csrf_token }}';
+
+            // Perform the AJAX request to update the data
+            $.ajax({
+                type: "post",
+                url: "update_user_data/",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    // Handle the response as needed
+                    if (response.success) {
+                        alert('Data updated successfully!');
+                    } else {
+                        alert('Failed to update data.');
+                    }
+                }
+            });
+        }
+
+        var initial_table_filter = "all"
+        $(".filter_one_table ul li").click(function () {
+            $(".filter_one_table ul li").removeClass("table_active")
+            $(this).addClass("table_active")
+            initial_table_filter = $(this).data("filter")
+            console.log(initial_table_filter);
+
+            if(initial_table_filter === "all"){
+             $("#all_order").show()
+             $("#open_order").hide()
+             $("#executed_order").hide()
+             $("#stop_loss_order").hide()
+            }
+            else if(initial_table_filter === "open_order"){
+             $("#all_order").hide()
+             $("#open_order").show()
+             $("#executed_order").hide()
+             $("#stop_loss_order").hide()
+            }
+            else if(initial_table_filter === "executed"){
+             $("#all_order").hide()
+             $("#open_order").hide()
+             $("#executed_order").show()
+             $("#stop_loss_order").hide()
+            }
+            else if(initial_table_filter === "stop_loss"){
+             $("#all_order").hide()
+             $("#open_order").hide()
+             $("#executed_order").hide()
+             $("#stop_loss_order").show()
+            }
+        })
+
+        function get_ip_user() {
+            
+            $.ajax({
+              url: '/user_login_history',
+              type: 'GET',
+              success: function(data) {
+                console.log(data)
+              // Render login history data dynamically
+       
+             $('.user_history_table_body').empty()
+              data.forEach(function(history) {
+                // var loginTime = new Date(history.login_time);
+                // var formattedTime = loginTime.toLocaleString();
+                const loginTime = getHumanReadableTime(history.login_time);
+                var browserIcon = '';
+                if (history.browser.toLowerCase() === 'chrome') {
+                    browserIcon = '<img src="static/img/browser_logos/Google_Chrome_icon_(February_2022).svg.png" alt="Chrome" width="30px">';
+                } else if (history.browser.toLowerCase() === 'edge') {
+                    browserIcon = '<img src="static/img/browser_logos/Microsoft_Edge_logo_(2019).png" alt="Edge" width="30px">';
+                
+                
+                } else if (history.browser.toLowerCase() === 'uc') {
+                    browserIcon = '<img src="https://ucbrowser.net/wp-content/uploads/2023/07/ucbrowser.net_.svg" alt="Edge" width="30px">';
+                } 
+                
+                else {
+                    browserIcon = '<span>N/A</span>';
+                }
+
+
+                           var tbodyUserTable =`
+
+                           <tr>
+                           <td><div>
+                            ${browserIcon} 
+                            </div></td>
+
+
+                           <td><div>
+                            ${history.ip_address}
+                            </div></td>
+
+
+
+                           <td><div>
+                            ${history.origin}
+                            </div></td>
+
+
+
+                           <td><div>
+                            ${loginTime}
+                            </div></td>
+                            </tr>
+                           
+                           `
+
+                 $('.user_history_table_body').append(tbodyUserTable);
+             
+              });
+           },
+             error: function(xhr, status, error) {
+             console.error('Error fetching login history:', error);
+           }
+             });
+        }
+        get_ip_user() 
+       
+        $(".logout_button").click(function(){
+
+
+  Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will be logged out from other devices',
+            input: 'password',
+            inputLabel: 'Enter your password',
+            inputAttributes: {
+                autocapitalize: 'off',
+                autocorrect: 'off'
+            },
+            inputPlaceholder: 'Enter your password',
+            showCancelButton: true,
+            confirmButtonText: 'Logout',
+            cancelButtonText: 'Cancel',
+            showLoaderOnConfirm: true,
+            preConfirm: (password) => {
+                return new Promise((resolve, reject) => {
+                    if (!password) {
+                        reject('Password cannot be empty');
+                    } else {
+                        $.ajax({
+                            url: '/verify_password',
+                            type: 'POST',
+                            data: {
+                                'password': password,
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Include CSRF token for Django
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    resolve();
+                                } else {
+                                    reject('Incorrect password');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                reject('AJAX request failed');
+                            }
+                        });
+                    }
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Handle confirmed action
+                logoutAllDevices();
+                Swal.fire({
+                    title: 'LogOut Complete!',
+                    text: 'You have been successfully logged out from other devices.',
+                    icon: 'success'
+                });
+            }
+        }).catch((error) => {
+            Swal.fire({
+                title: 'Error!',
+                text: error,
+                icon: 'error'
+            });
+        });
+   
+        })
+
+
+        function getHumanReadableTime(loginTime) {
+    const now = new Date();
+    const loginDate = new Date(loginTime);
+    const timeDiff = now - loginDate;
+    
+    // Convert milliseconds to seconds, minutes, hours, days, and months
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    
+    // Return a human-readable string based on the time difference
+    if (months > 0) {
+        return months === 1 ? '1 month ago' : `${months} months ago`;
+    } else if (days > 0) {
+        return days === 1 ? '1 day ago' : `${days} days ago`;
+    } else if (hours > 0) {
+        return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+    } else if (minutes > 0) {
+        return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+    } else {
+        return 'Just now';
+    }
+}
+
+        function logoutAllDevices() {
+    $.ajax({
+        url: '/logout_all_devices',
+        type: 'POST',
+        success: function(data) {
+            console.log(data.message);
+           
+           
+            // Redirect to login page or perform other actions after logout
+        },
+        error: function(xhr, status, error) {
+            console.error('Error logging out from all devices:', error);
+        }
+    });
+}
+
+    });
+</script>
+
+
+
+{% endblock dashboard_body %}

@@ -290,6 +290,8 @@ h5,p{
           </button>
          <ul class="dropdown-menu dropdown-menu-dark user_details_dropdown">
            <li><a class="dropdown-item" href="{% url 'broker_details' %}">Broker Details</a></li>
+           <li><a class="dropdown-item" href="{% url 'account_details' %}">Account Details</a></li>
+           <li><a class="dropdown-item" href="{% url 'webhooks' %}">Web hooks</a></li>
            <li><a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a></li>
          </ul>
           {% else %}

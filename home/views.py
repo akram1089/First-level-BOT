@@ -1041,3 +1041,334 @@ def get_api_config_data(request):
 
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+    
+
+
+
+
+
+
+def account_details(request):
+    return render(request,"account_details.html")
+
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.core import serializers
+
+@login_required
+@csrf_exempt
+def get_user_data(request):
+    user = request.user
+
+    print("user",user)
+    print("user.first_name",user.first_name)
+    full_name = user.full_name if user.full_name else f"{user.first_name} {user.last_name}"
+    data = {
+        'id': user.id,
+        'username': user.username,
+        'full_name': full_name,
+        'email': user.email,
+        'Mobile_number': user.Mobile_number,
+        'Phone_code': user.Phone_code,
+        'Country': user.Country,
+        'State': user.State,
+        # Add other fields as needed
+    }
+
+    return JsonResponse(data)
+
+
+@csrf_exempt
+def update_user_data(request):
+    if request.method == 'POST':
+        # Get data from POST request
+        user_id = request.POST.get('id')
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        state = request.POST.get('state')
+        mobile_num = request.POST.get('mobile_num')
+
+        # Perform update operation, replace this with your logic
+        user = User.objects.get(id=user_id)
+        user.full_name = full_name
+        user.email = email
+        user.State = state
+        user.Mobile_number = mobile_num
+        user.save()
+
+        # Return success or failure response
+        return JsonResponse({'success': True})  # You can customize the response as needed
+
+
+
+from .models import UserLoginHistory
+
+def user_login_history(request):
+    user_login_history = UserLoginHistory.objects.filter(user=request.user, action="Login").order_by('-login_time')[:10]
+    
+    # Convert login history queryset to JSON format
+    login_history_data = []
+    for entry in user_login_history:
+        login_history_data.append({
+            'ip_address': entry.ip_address,
+            'login_time': entry.login_time,  # Format login time
+            'browser': entry.browser,
+            'browser_version': entry.browser_version,
+            'origin': entry.origin
+        })
+    
+    return JsonResponse(login_history_data, safe=False)
+
+
+
+
+
+
+
+
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+from .models import UserSession
+from django.contrib.auth import logout
+from django.contrib.sessions.models import Session
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@receiver(user_logged_in)
+def capture_session_key(sender, request, user, **kwargs):
+    # Store the session key associated with the login session
+    UserSession.objects.create(user=user, session_key=request.session.session_key)
+
+@csrf_exempt
+def logout_all_devices(request):
+    current_session_key = request.session.session_key
+    
+    # Get the user's active sessions excluding the current session
+    user_sessions = UserSession.objects.filter(user=request.user).exclude(session_key=current_session_key)
+    
+    # Iterate through the sessions and delete them, except for the current session
+    for user_session in user_sessions:
+        try:
+            # Find and delete the session associated with the session key
+            session = Session.objects.get(pk=user_session.session_key)
+            session.delete()
+        except Session.DoesNotExist:
+            pass  # Handle session not found
+    
+    # Return response without logging out the current device
+    return JsonResponse({'message': 'Logged out from all devices except current device'})
+
+def webhooks(request):
+    return render(request,"webhooks.html")
+
+
+
+from django.contrib.sites.models import Site
+from django.http import HttpResponse
+from django.urls import reverse
+
+def webhook_urls(request):
+    user = request.user
+    secret_key = user.secret_key.lower()
+    user_id = user.id
+
+    # Get the first site's URL
+    site = Site.objects.first()
+    site_url = site.domain
+
+    # Construct webhook API URL
+    webhook_api = f"{site_url}/webhook_auth_rest/{user_id}/{secret_key}/"
+
+    return JsonResponse({"webhook_api":webhook_api})
+
+
+    # path('webhook_auth/<str:user_id>/<str:secrect>/', views.webhook_auth, name='webhook_auth'),
+@csrf_exempt
+def webhook_auth(request, user_id, secret_key):
+    print(request.user)
+    if str(request.user.id) == user_id and str(request.user.secret_key.lower()) == secret_key:
+        if request.method == 'POST':
+            try:
+                # Parse the JSON data from the request body
+                data = json.loads(request.body.decode('utf-8'))
+                
+                # Process the data as needed
+                # For testing purposes, let's just print the received data
+                print(data)
+                
+                # Call the function to process the webhook data
+                # order_zerodha_webwooks(data)
+                
+                # Respond with a success message
+                return JsonResponse({"message": "Webhook received successfully"})
+            except json.JSONDecodeError as e:
+                # Return an error response if JSON decoding fails
+                return JsonResponse({"error": "Invalid JSON format"}, status=400)
+        else:
+            return JsonResponse({"error": "Unsupported method"}, status=405)
+    else:
+        return HttpResponse("false")
+
+
+
+
+
+
+
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+
+@api_view(['GET'])
+def get_auth_token(request):
+    if request.method == 'GET':
+        user = request.user  # Retrieve the currently logged-in user
+        
+        if user.is_authenticated:
+            # User authenticated, generate token if not exists
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+def order_zerodha_webwooks(data,broker_instance_zerodha):
+        print(broker_instance_zerodha)
+        data_trade = data
+        # print("data_trade", data_trade)
+        logging_id = broker_instance_zerodha.logging_id
+        password = broker_instance_zerodha.password
+        totp_key = broker_instance_zerodha.totp_key
+
+
+        
+        enctoken = get_enctoken_internal(logging_id, password, totp_key)
+        print(enctoken)
+
+        # Check if login was successful
+        if enctoken:
+            zerodha_api = ZerodhaPlaceOrder(enctoken)
+            order_details = []
+
+            for trade_data in data_trade:
+                tradingsymbol = trade_data.get('main_trading_symbol', '')
+                print('tradingsymbol',tradingsymbol)
+                sell_buy_indicator = trade_data.get('sell_buy_indicator', '').upper()  # Ensure it's uppercase
+                quantity = int(trade_data.get('Quantity', 0))
+                price = float(trade_data.get('price', 0))
+                mis_select = trade_data.get('mis_select', '').lower()  # Ensure it's lowercase
+                isRadioChecked = trade_data.get('isRadioChecked', '')  # assuming 'isRadioChecked' is present in each trade_data
+
+                # Map sell_buy_indicator to TRANSACTION_TYPE
+                if sell_buy_indicator == 'BUY':
+                    transaction_type = zerodha_api.TRANSACTION_TYPE_BUY
+                elif sell_buy_indicator == 'SELL':
+                    transaction_type = zerodha_api.TRANSACTION_TYPE_SELL
+                else:
+                    print(f"Invalid sell_buy_indicator: {sell_buy_indicator}")
+                    continue  # Skip processing this trade_data if the indicator is invalid
+
+                # Map mis_select to product type
+                if mis_select == 'overnight':
+                    product_type = zerodha_api.PRODUCT_NRML
+                elif mis_select == 'intraday':
+                    product_type = zerodha_api.PRODUCT_MIS
+                else:
+                    print(f"Invalid mis_select: {mis_select}")
+                    continue  # Skip processing this trade_data if the mis_select is invalid
+
+                # Map isRadioChecked to order type
+                if isRadioChecked == 'market':
+                    order_type = zerodha_api.ORDER_TYPE_MARKET
+                elif isRadioChecked == 'limit':
+                    order_type = zerodha_api.ORDER_TYPE_LIMIT
+                else:
+                    print(f"Invalid isRadioChecked: {isRadioChecked}")
+                    continue  # Skip processing this trade_data if the isRadioChecked is invalid
+
+                order = zerodha_api.place_order(
+                    variety=zerodha_api.VARIETY_REGULAR,
+                    exchange=zerodha_api.EXCHANGE_NFO,
+                    tradingsymbol=tradingsymbol,
+                    transaction_type=transaction_type,
+                    quantity=quantity,
+                    product=product_type,
+                    order_type=order_type,
+                    price=price,
+                    validity=zerodha_api.VALIDITY_DAY,
+                    disclosed_quantity=0,
+                    trigger_price=0,
+                    squareoff=0,
+                    stoploss=0,
+                    trailing_stoploss=0,
+                )
+                order_details.append({
+                    'tradingsymbol': tradingsymbol,
+                    'transaction_type': transaction_type,
+                    'mis_select': mis_select,
+                    'order_type': order_type,
+                    'order_id': order,
+                })
+
+                print(f"Order ID for {tradingsymbol} ({transaction_type}, {mis_select}, {order_type}): {order}")
+
+                # Continue with your logic here, e.g., handling the order response
+
+            return {'status': 'success','broker':'zerodha', 'message': 'Orders placed successfully', 'order_details': order_details}
+
+
+
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
+from .models import WebhookResponse
+
+@csrf_exempt
+def webhook_auth_rest(request, user_id, secret_key):
+
+    if request.method == 'POST':
+        try:
+            # Parse the JSON data from the request body
+            data = json.loads(request.body.decode('utf-8'))
+            
+            # Retrieve the user based on the provided user_id
+            try:
+                user = User.objects.get(id=user_id)
+                print(user)
+            except User.DoesNotExist:
+                return JsonResponse({"message": "User is not authenticated"}, status=401)
+            
+            # Check if the provided secret_key matches the user's secret_key
+            if user.secret_key.lower() == secret_key.lower():
+                # Process the data as needed
+                # For testing purposes, let's just print the received data
+                print(data)
+                broker_instance_zerodha = Broker.objects.filter(user=user, broker_name="zerodha", active_api=True).first()
+                broker_instance_angelone = Broker.objects.filter(user=user, broker_name="angelone", active_api=True).first()
+                print(broker_instance_zerodha)
+
+                if broker_instance_zerodha:
+                    zerodha_response = order_zerodha_webwooks(data,broker_instance_zerodha)
+                    print("zerodha_response",zerodha_response)
+
+                    # Save the zerodha_response into WebhookResponse model
+                    WebhookResponse.objects.create(user=user, zerodha_response_data=zerodha_response)
+
+                    return JsonResponse(zerodha_response)
+                else:
+                    return JsonResponse({"message":"Unknown Broker or No broker is activated"})    
+            else:
+                return JsonResponse({"message": "Webhook error"}, status=401)
+        except json.JSONDecodeError as e:
+            # Return an error response if JSON decoding fails
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
+    else:
+        return JsonResponse({"error": "Unsupported method"}, status=405)

@@ -17,6 +17,17 @@ urlpatterns = [
     path('verify_otp_api_activation', views.verify_otp_api_activation, name='verify_otp_api_activation'),
     path('update_active_api', views.update_active_api, name='update_active_api'),
     path('broker_details', views.broker_details, name='broker_details'),
+    path('account_details', views.account_details, name='account_details'),
+    path('get_user_data/', views.get_user_data, name='get_user_data'),
+    path('update_user_data/', views.update_user_data, name='update_user_data'),
+    path('user_login_history', views.user_login_history, name='user_login_history'),
     path('get_api_config_data', views.get_api_config_data, name='get_api_config_data'),
+    path('webhooks', views.webhooks, name='webhooks'),
+    path('webhook_urls', views.webhook_urls, name='webhook_urls'),
+    path('get_auth_token', views.get_auth_token, name='get_auth_token'),
+    path('webhook_auth/<str:user_id>/<str:secret_key>/', views.webhook_auth, name='webhook_auth'),
+    path('webhook_auth_rest/<str:user_id>/<str:secret_key>/', views.webhook_auth_rest, name='webhook_auth_rest'),
+
+
 
 ]

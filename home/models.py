@@ -56,3 +56,49 @@ class Broker(models.Model):
     def __str__(self):
         return f"{self.broker_name} - {self.user} - {self.app_name}"
     
+
+
+class UserLoginHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(auto_now_add=True)
+    ip_address = models.CharField(max_length=100)
+    action = models.CharField(max_length=10)
+    browser = models.CharField(max_length=100)  # Add browser field
+    browser_version = models.CharField(max_length=100) 
+    origin = models.CharField(max_length=100)
+    cash_status = models.BooleanField(default=False)
+    def __str__(self):
+        return f"{self.user.Mobile_number} - {self.login_time}"
+
+
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=40, unique=True)
+
+
+
+
+# models.py
+from django.db import models
+
+class Site(models.Model):
+    name = models.CharField(max_length=100)
+    url = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+
+
+from django.db import models
+
+
+
+class WebhookResponse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    zerodha_response_data = models.JSONField()
+
+    def __str__(self):
+        return f"Webhook Response for {self.user}"
