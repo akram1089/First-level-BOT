@@ -1372,3 +1372,9 @@ def webhook_auth_rest(request, user_id, secret_key):
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
     else:
         return JsonResponse({"error": "Unsupported method"}, status=405)
+
+
+
+
+def bot_templates(request):
+    return render(request , 'bot_templates.html')

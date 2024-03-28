@@ -25,6 +25,7 @@ urlpatterns = [
     path('webhooks', views.webhooks, name='webhooks'),
     path('webhook_urls', views.webhook_urls, name='webhook_urls'),
     path('get_auth_token', views.get_auth_token, name='get_auth_token'),
+    path('bot_templates', views.bot_templates, name='bot_templates'),
     path('webhook_auth/<str:user_id>/<str:secret_key>/', views.webhook_auth, name='webhook_auth'),
     path('webhook_auth_rest/<str:user_id>/<str:secret_key>/', views.webhook_auth_rest, name='webhook_auth_rest'),
 
